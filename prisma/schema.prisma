@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Token {
+  id        String     @default(cuid()) @id
+  author    User?   @relation(fields: [authorId], references: [id])
+  authorId  String?
+  token     String
+  amount    Float
+  locationBlockchain String?
+  locationApp String
+  locationType String
+  @@unique([locationBlockchain, locationApp, locationType, token, authorId])
+}
+
+model History {
+  id        String       @default(cuid()) @id
+  author    User?   @relation(fields: [authorId], references: [id])
+  authorId  String?
+  action    String
+  token     String
+  amount    Float
+  locationBlockchain String?
+  locationApp String
+  locationType String
+  processAt     DateTime     @default(now()) @map(name: "process_at")
+}
+
+model User {
+  id            String       @default(cuid()) @id
+  name          String
+  email         String       @unique
+  createdAt     DateTime     @default(now()) @map(name: "created_at")
+  totalWallet   Int?         @default(0) @map(name: "total_wallet")
+  history      History[]
+  tokens       Token[]
+  @@map(name: "users")
+}
