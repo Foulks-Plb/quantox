@@ -13,33 +13,35 @@ export default function handler(
 
 async function createHistory(data: any) {
   try {
-    await prisma.history.create({
-      data: data
-    });
-    await prisma.token.upsert({
-      where: {
-        locationBlockchain_locationApp_locationType_token_authorId: {
+    await prisma.$transaction([
+      prisma.history.create({
+        data: data
+      }),
+      prisma.token.upsert({
+        where: {
+          locationBlockchain_locationApp_locationType_token_authorId: {
+            authorId: authorId,
+            locationBlockchain: data.locationBlockchain,
+            locationApp: data.locationApp,
+            locationType: data.locationType,
+            token: data.token,
+          },
+        },
+        update: {
+          amount: {
+            increment: data.amount,
+          }
+        },
+        create: {
           authorId: authorId,
+          amount: data.amount,
+          token: data.token,
           locationBlockchain: data.locationBlockchain,
           locationApp: data.locationApp,
           locationType: data.locationType,
-          token: data.token,
         },
-      },
-      update: {
-        amount: {
-          increment: data.amount,
-        }
-      },
-      create: {
-        authorId: authorId,
-        amount: data.amount,
-        token: data.token,
-        locationBlockchain: data.locationBlockchain,
-        locationApp: data.locationApp,
-        locationType: data.locationType,
-      },
-    })
+      }),
+    ]);
   } catch (error) {
     console.error(error);
   }
