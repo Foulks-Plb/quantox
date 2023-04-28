@@ -23,16 +23,22 @@ model Token {
 }
 
 model History {
-  id        String       @default(cuid()) @id
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
-  action    String
-  token     String
-  amount    Float
-  locationBlockchain String?
-  locationApp String
-  locationType String
-  processAt     DateTime     @default(now()) @map(name: "process_at")
+  id            String        @default(cuid()) @id
+  author        User?         @relation(fields: [authorId], references: [id])
+  authorId      String?
+  action        String
+  tokenFrom               String
+  amountFrom              Float
+  locationBlockchainFrom  String?
+  locationAppFrom         String
+  locationTypeFrom        String
+  tokenTo               String
+  amountTo              Float
+  locationBlockchainTo  String?
+  locationAppTo         String
+  locationTypeTo        String
+
+  processAt     DateTime      @default(now()) @map(name: "process_at")
 }
 
 model User {
@@ -40,8 +46,7 @@ model User {
   name          String
   email         String       @unique
   createdAt     DateTime     @default(now()) @map(name: "created_at")
-  totalWallet   Int?         @default(0) @map(name: "total_wallet")
-  history      History[]
-  tokens       Token[]
+  history       History[]
+  tokens        Token[]
   @@map(name: "users")
 }

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import PieChart from './PieChart';
-import axios from 'axios';
 import { Token } from '@/types/token';
-import { getCall } from '@/utils/ts/api';
+import { fetchTokens } from '@/utils/store/tokens';
+import { connect } from 'react-redux';
 
-export default function Page() {
+const Page = ({ tokens, isLoading, error, fetchTokens }: any) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const [chartsIsLoaded, setChartsIsLoaded] = useState(false);
@@ -20,27 +20,25 @@ export default function Page() {
 
   useEffect(() => {
     if (isMounted) {
-      initCharts();
+      fetchTokens();
     } else {
       setIsMounted(true);
     }
   }, [isMounted]);
 
-  async function fetchFile() {
-    return await getCall('/api/tokens');
-  }
+  useEffect(() => {
+    if (tokens) {
+      initCharts();
+    }
+  }, [tokens]); // !!! execute two times
 
   async function initCharts() {
-    const data = await fetchFile();
-    console.log(data);
-
     let _seriesWallet: number[] = [];
     let _labelsToken: string[] = [];
     let _labelsLocationType: string[] = [];
     let _labelsLocationApp: string[] = [];
     let _labelsLocationBlockchain: string[] = [];
-    data.tokens.map((item: Token) => {
-      console.log(item)
+    tokens.tokens.map((item: Token) => {
       _seriesWallet.push(item.value);
       _labelsLocationType.push(item.locationType);
       _labelsToken.push(item.token);
@@ -49,7 +47,7 @@ export default function Page() {
         item.locationBlockchain ? item.locationBlockchain : 'centralised',
       );
     });
-    setTotalValue(data.total);
+    setTotalValue(tokens.total);
 
     setSeriesWallet(_seriesWallet);
     setOptionsWallet({
@@ -112,3 +110,11 @@ export default function Page() {
     </div>
   );
 }
+
+const maptokens = (state: any) => ({
+  tokens: state.tokens,
+  isLoading: state.isLoading,
+  error: state.error,
+});
+
+export default connect(maptokens, { fetchTokens })(Page);

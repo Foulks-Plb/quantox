@@ -3,11 +3,17 @@ import 'bootstrap/dist/css/bootstrap.css'
 import '@/styles/globals.css'
 
 import SideMenu from '../utils/components/sideMenu/SideMenu'
+import { Provider } from 'react-redux'
+import store from '@/utils/store/tokens'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <SideMenu><Component {...pageProps} /></SideMenu>
+      <Provider store={store}>
+      <SideMenu>
+        <Component {...pageProps} />
+      </SideMenu>
+      </Provider>
     </>
   )
 }

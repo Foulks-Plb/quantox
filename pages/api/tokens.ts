@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { Token } from '@/types/token';
 import prisma from '@/lib/prisma';
 import { authorId } from '@/utils/constant';
-import { getPricesCoingecko } from '@/utils/ts/api';
+import { getPricesCoingecko } from '@/utils/ts/api-coingecko';
 
 type Data = {
   total: number;
@@ -17,7 +17,7 @@ export default function handler(
   if (req.method === 'GET') {
     let listOfTokens = [];
     getTokens().then((data: any) => {
-      listOfTokens = data.map((token: any) => token.token);
+      listOfTokens = [...new Set(data.map((token: any) => token.token))];
       getPrices(listOfTokens).then((prices: any) => {
         let totalWallet = 0;
         const tokens = data.map((token: any) => {
@@ -36,7 +36,7 @@ export default function handler(
           }
         });
         res.status(200).json({
-          total: totalWallet,
+          total: Number(totalWallet.toFixed(2)),
           tokens: [...tokens],
         });
       });
@@ -53,7 +53,7 @@ async function getTokens() {
   return tokens;
 }
 
-async function getPrices(tokensArray: string[]) {
-  if (tokensArray.length === 0) return;
+async function getPrices(tokensArray: any[]) {
+  if (tokensArray.length === 0) return {};
   return await getPricesCoingecko(tokensArray.join(','));
 }
