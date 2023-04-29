@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export default function PieChart({ series, options, title }: pieChartProps) {
+export default function PieChart({ title, series, options, type }: pieChartProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [seriesSort, setSeriesSort] = useState<number[]>();
   const [optionsSort, setOptionsSort] = useState<OptionPieChart>();
@@ -44,8 +44,8 @@ export default function PieChart({ series, options, title }: pieChartProps) {
           <Chart
             series={seriesSort}
             options={optionsSort}
-            type="pie"
-            width={400}
+            type={type}
+            width={350}
           />
         </div>
       ) : (

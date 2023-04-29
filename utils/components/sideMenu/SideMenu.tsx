@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './sideMenu.module.scss';
+import styles from './SideMenu.module.scss';
 import Link from 'next/link';
 import Dialog from '../dialog/Dialog';
 
@@ -45,7 +45,7 @@ const SideMenu = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
         <div>
-          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <main>
             {children}
           </main>
         </div>

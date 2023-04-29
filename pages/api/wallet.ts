@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 import { authorId } from '@/utils/constant';
 import { getPricesCoingecko } from '@/utils/ts/api-coingecko';
 import { Wallet, Token } from '@/utils/types/wallet';
+import { fixed2 } from '@/utils/ts/pipe';
 
 export default function handler(
   req: NextApiRequest,
@@ -26,12 +27,12 @@ export default function handler(
             totalWallet += price;
             return {
               ...token,
-              value: price,
+              value: fixed2(price),
             };
           }
         });
         res.status(200).json({
-          total: Number(totalWallet.toFixed(2)),
+          total: fixed2(totalWallet),
           tokens: [...tokens],
         });
       });

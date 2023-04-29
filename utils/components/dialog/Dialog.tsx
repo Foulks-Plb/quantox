@@ -1,4 +1,4 @@
-import styles from './dialog.module.scss';
+import styles from './Dialog.module.scss';
 import { useState } from 'react';
 import { postCall } from '@/utils/ts/api-base';
 import { authorId } from '@/utils/constant';

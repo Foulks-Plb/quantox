@@ -4,24 +4,32 @@ import { StoreWalletProps, Token } from '@/utils/types/wallet';
 import { getWallet } from '@/utils/store/wallet';
 import { connect } from 'react-redux';
 import { OptionPieChart } from '@/utils/types/chart';
+import styles from './home.module.scss';
+import InfoCard from '@/utils/components/infoCard/InfoCard';
+import AllToken from '@/utils/components/allToken/AllToken';
 
-const Page = ({ wallet , isLoading, error, getWallet }: StoreWalletProps) => {
+const Page = ({ wallet, isLoading, error, getWallet }: StoreWalletProps) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const [chartsIsLoaded, setChartsIsLoaded] = useState(false);
 
-  const [totalValue, setTotalValue] = useState<number>(0);
-
   const [seriesWallet, setSeriesWallet] = useState<number[]>([]);
-  const [optionsWallet, setOptionsWallet] = useState<OptionPieChart>({labels: [], colors: []});
-  const [optionsLocationType, setOptionsLocationType] = useState<OptionPieChart>({labels: [], colors: []});
-  const [optionsLocationApp, setOptionsLocationApp] = useState<OptionPieChart>({labels: [], colors: []});
+  const [optionsWallet, setOptionsWallet] = useState<OptionPieChart>({
+    labels: [],
+    colors: [],
+  });
+  const [optionsLocationType, setOptionsLocationType] =
+    useState<OptionPieChart>({ labels: [], colors: [] });
+  const [optionsLocationApp, setOptionsLocationApp] = useState<OptionPieChart>({
+    labels: [],
+    colors: [],
+  });
   const [optionsLocationBlockchain, setOptionsLocationBlockchain] =
-    useState<OptionPieChart>({labels: [], colors: []});
+    useState<OptionPieChart>({ labels: [], colors: [] });
 
   useEffect(() => {
     if (isMounted) {
-      if (getWallet) getWallet()
+      if (getWallet) getWallet();
     } else {
       setIsMounted(true);
     }
@@ -30,7 +38,6 @@ const Page = ({ wallet , isLoading, error, getWallet }: StoreWalletProps) => {
   useEffect(() => {
     if (wallet && isMounted) {
       initCharts();
-      console.log(wallet)
     }
   }, [wallet, isMounted]);
 
@@ -40,78 +47,98 @@ const Page = ({ wallet , isLoading, error, getWallet }: StoreWalletProps) => {
     let _labelsLocationType: string[] = [];
     let _labelsLocationApp: string[] = [];
     let _labelsLocationBlockchain: string[] = [];
-    wallet.tokens.map((item: Token) => {
+    wallet?.tokens.map((item: Token) => {
       _seriesWallet.push(item.value);
       _labelsLocationType.push(item.locationType);
       _labelsToken.push(item.token);
-      _labelsLocationApp.push(item.locationApp + (item.locationType === 'centralised' ? ' ('+ item.locationType +') ' : ''));
+      _labelsLocationApp.push(
+        item.locationApp +
+          (item.locationType === 'centralised'
+            ? ' (' + item.locationType + ') '
+            : ''),
+      );
       _labelsLocationBlockchain.push(
         item.locationBlockchain ? item.locationBlockchain : 'centralised',
       );
     });
-    setTotalValue(wallet.total);
 
     setSeriesWallet(_seriesWallet);
     setOptionsWallet({
       labels: _labelsToken,
-      colors: ['#ffbe0b', '#fb5607', '#ff006e', '#8338ec', '#3a86ff'],
+      colors: ['#C6D0BC', '#F6D78B', '#A3A7FC', '#8CA473', '#F8F7F1'],
     });
     setOptionsLocationType({
       labels: _labelsLocationType,
-      colors: ['#ffbe0b', '#fb5607', '#ff006e', '#8338ec', '#3a86ff'],
+      colors: ['#C6D0BC', '#F6D78B', '#A3A7FC', '#8CA473', '#F8F7F1'],
     });
     setOptionsLocationApp({
       labels: _labelsLocationApp,
-      colors: ['#ffbe0b', '#fb5607', '#ff006e', '#8338ec', '#3a86ff'],
+      colors: ['#C6D0BC', '#F6D78B', '#A3A7FC', '#8CA473', '#F8F7F1'],
     });
     setOptionsLocationBlockchain({
       labels: _labelsLocationBlockchain,
-      colors: ['#ffbe0b', '#fb5607', '#ff006e', '#8338ec', '#3a86ff'],
+      colors: ['#C6D0BC', '#F6D78B', '#A3A7FC', '#8CA473', '#F8F7F1'],
     });
 
     setChartsIsLoaded(true);
   }
 
   return (
-    <div>
+    <div className={styles.home}>
       {chartsIsLoaded ? (
-        <div>
-          <div className="d-flex h2">
-            <p>{totalValue}</p>
-            <p>$</p>
+        <div className={styles.dashboard}>
+          <div className={styles.main}>
+            <div className='d-flex justify-content-center'>
+              <InfoCard title='Balance' value={wallet?.total}/>
+              <InfoCard title='Balance' value={wallet?.total}/>
+            </div>
           </div>
-          <div className="d-flex">
+          <div className={styles.side}>
             <PieChart
               title="Tokens"
               series={seriesWallet}
               options={optionsWallet}
+              type='donut'
             />
-            <PieChart
-              title="Blockchain"
-              series={seriesWallet}
-              options={optionsLocationBlockchain}
-            />
-          </div>
-          <div className="d-flex">
-            <PieChart
-              title="Location type"
-              series={seriesWallet}
-              options={optionsLocationType}
-            />
-            <PieChart
-              title="Application"
-              series={seriesWallet}
-              options={optionsLocationApp}
-            />
+            <AllToken tokens={wallet?.tokens}/>
           </div>
         </div>
       ) : (
-        <div className="spinner-border text-light" role="status">
-        </div>
+        // <div >
+        //   <div className="d-flex h2">
+        //     <p>{wallet?.total}</p>
+        //     <p>$</p>
+        //   </div>
+        //   <div className="d-flex">
+        //     <PieChart
+        //       title="Tokens"
+        //       series={seriesWallet}
+        //       options={optionsWallet}
+        //     />
+        //     <PieChart
+        //       title="Blockchain"
+        //       series={seriesWallet}
+        //       options={optionsLocationBlockchain}
+        //     />
+        //   </div>
+        //   <div className="d-flex">
+        //     <PieChart
+        //       title="Location type"
+        //       series={seriesWallet}
+        //       options={optionsLocationType}
+        //     />
+        //     <PieChart
+        //       title="Application"
+        //       series={seriesWallet}
+        //       options={optionsLocationApp}
+        //     />
+        //   </div>
+        // </div>
+        <div className="spinner-border text-light" role="status"></div>
       )}
     </div>
   );
-}
+};
 
 const mapWallet = (state: StoreWalletProps) => ({
   wallet: state.wallet,

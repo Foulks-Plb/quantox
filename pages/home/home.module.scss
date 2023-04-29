@@ -1,0 +1,13 @@
+.home {
+    .dashboard {
+        display: flex;
+
+        .main {
+            width: 60vw;
+        }
+
+        .side {
+            width: 30vw;
+        }
+    }
+}

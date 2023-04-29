@@ -1,0 +1,38 @@
+.infoCard {
+    background-color: var(--color-green1);
+    width: 200px;
+    height: 180px;
+    border-radius: var(--border-radius-x);
+    padding: 25px;
+    margin: 10px;
+
+    .header {
+        color: var(--color-black);
+        display: flex;
+        align-items: center;
+
+        .currency {
+            background-color: var(--color-green2);
+            color: var(--color-green3);
+            width: 20px;
+            height: 20px;
+            margin-right: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: var(--border-radius-s);
+            font-weight: 700;
+        }
+
+        .title {
+            font-weight: 600;
+        }
+
+    }
+
+    .value {
+        color: var(--color-black);
+        font-size: 25px;
+        font-weight: 700;
+    }
+}
