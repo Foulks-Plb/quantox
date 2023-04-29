@@ -1,26 +1,21 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Token } from '@/types/token';
 import prisma from '@/lib/prisma';
 import { authorId } from '@/utils/constant';
 import { getPricesCoingecko } from '@/utils/ts/api-coingecko';
-
-type Data = {
-  total: number;
-  tokens: Token[];
-};
+import { Wallet, Token } from '@/utils/types/wallet';
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>,
+  res: NextApiResponse<Wallet>,
 ) {
   if (req.method === 'GET') {
     let listOfTokens = [];
-    getTokens().then((data: any) => {
-      listOfTokens = [...new Set(data.map((token: any) => token.token))];
+    getTokens().then((data: any[]) => {
+      listOfTokens = [...new Set(data.map((token: Token) => token.token))];
       getPrices(listOfTokens).then((prices: any) => {
         let totalWallet = 0;
-        const tokens = data.map((token: any) => {
+        const tokens: Token[] = data.map((token: Token) => {
           if (!prices[token.token]) {
             return {
               ...token,

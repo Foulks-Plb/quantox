@@ -4,7 +4,7 @@ import '@/styles/globals.css'
 
 import SideMenu from '../utils/components/sideMenu/SideMenu'
 import { Provider } from 'react-redux'
-import store from '@/utils/store/tokens'
+import store from '@/utils/store/wallet'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

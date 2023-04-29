@@ -1,41 +1,26 @@
+import { getWallet } from '@/utils/store/wallet';
 import { getResultsWithName } from '@/utils/ts/api-coingecko';
-import { useState } from 'react';
+import { StoreWalletProps } from '@/utils/types/wallet';
+import { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
-export default function SwapForm() {
+function SwapForm({ wallet, isLoading, error, getWallet }: StoreWalletProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const [isDecentralisedForm, setIsDecentralisedForm] = useState(true);
 
   const [options, setOptions] = useState([]);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
 
-  const myWallet = [{
-    token: 'bitcoin',
-    locationBlockchain: 'bitcoin',
-    locationType: 'decentralised',
-    locationApp: 'wallet',
-  },
-  {
-    token: 'ethereum',
-    locationBlockchain: 'ethereum',
-    locationType: 'decentralised',
-    locationApp: 'aave',
-  },
-  {
-    token: 'ethereum',
-    locationBlockchain: 'ethereum',
-    locationType: 'decentralised',
-    locationApp: 'wallet',
-  },
-  {
-    token: 'curve',
-    locationBlockchain: 'fantom',
-    locationType: 'decentralised',
-    locationApp: 'aave',
-  }
-]
+  useEffect(() => {
+      if (isMounted) {
+        if (getWallet) getWallet()
+      } else {
+        setIsMounted(true);
+      }
+  }, [isMounted]);
   
   async function tokenOnChange(event: any) {
     const value = event.target.value;
-
     if (timeoutId) {
       setOptions([]);
       clearTimeout(timeoutId);
@@ -71,7 +56,7 @@ export default function SwapForm() {
         list="tokensFrom"
       ></input>
       <datalist id="tokensFrom">
-        {myWallet.map((item: any, i: number) => (
+        {wallet?.tokens.map((item: any, i: number) => (
           <div key={i}>
             <option value={item.token}>{item.token + '-' + item.locationBlockchain + '-' + item.locationApp + '-' + item.locationType}</option>
           </div>
@@ -148,3 +133,11 @@ export default function SwapForm() {
     </div>
   );
 }
+
+const mapWallet = (state: StoreWalletProps) => ({
+  wallet: state.wallet,
+  isLoading: state.isLoading,
+  error: state.error,
+});
+
+export default connect(mapWallet, { getWallet })(SwapForm);

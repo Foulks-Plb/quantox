@@ -11,14 +11,14 @@ datasource db {
 }
 
 model Token {
-  id        String     @default(cuid()) @id
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
-  token     String
-  amount    Float
-  locationBlockchain String?
-  locationApp String
-  locationType String
+  id                    String     @default(cuid()) @id
+  author                User?      @relation(fields: [authorId], references: [id])
+  authorId              String?
+  token                 String
+  amount                Float     
+  locationBlockchain    String?
+  locationApp           String
+  locationType          String
   @@unique([locationBlockchain, locationApp, locationType, token, authorId])
 }
 
@@ -28,16 +28,15 @@ model History {
   authorId      String?
   action        String
   tokenFrom               String
-  amountFrom              Float
+  amountFrom              Float     
   locationBlockchainFrom  String?
   locationAppFrom         String
   locationTypeFrom        String
-  tokenTo               String
-  amountTo              Float
-  locationBlockchainTo  String?
-  locationAppTo         String
-  locationTypeTo        String
-
+  tokenTo                 String
+  amountTo                Float     
+  locationBlockchainTo    String?
+  locationAppTo           String
+  locationTypeTo          String
   processAt     DateTime      @default(now()) @map(name: "process_at")
 }
 

@@ -1,11 +1,12 @@
+import { OptionPieChart, pieChartProps } from '@/utils/types/chart';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export default function PieChart({ series, options, title }: any) {
+export default function PieChart({ series, options, title }: pieChartProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [seriesSort, setSeriesSort] = useState<number[]>();
-  const [optionsSort, setOptionsSort] = useState<any>();
+  const [optionsSort, setOptionsSort] = useState<OptionPieChart>();
 
   useEffect(() => {
     if (isMounted) {
