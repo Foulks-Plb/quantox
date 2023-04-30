@@ -22,7 +22,7 @@ const SideMenu = ({ children }: { children: React.ReactNode }) => {
     <>
       <div className={styles.main}>
         <div className={styles.sideMenu}>
-          <h1 className="text-center">Quantox</h1>
+          <h1 className={styles.logoMenu}>Quantox</h1>
           <div className="text-center h-100">
               <div>
                 <Link href="/home">Home</Link>

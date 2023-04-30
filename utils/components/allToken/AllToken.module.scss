@@ -1,11 +1,44 @@
 .allTokens {
     padding: 0 16px;
-    // .header {}
+    background-color: var(--color-grey2);
+    min-height: 100%;
+
+    .header {
+        color: var(--color-black);
+    }
 
     .body {
         .token {
-            margin: 8px 0;
-            background-color: rgb(174, 150, 150);
+            margin: var(--border-radius-m) 0;
+            background-color: var(--color-white);
+            display: flex;
+            padding: var(--border-radius-l);
+            border-radius: var(--border-radius-l);
+            align-items: center;
+            color: var(--color-black);
+
+            .tokenHead {
+                .tokenTitle {
+                    display: flex;
+
+                    .tokenAmount {
+                        margin-right: var(--border-radius-s);
+                    }
+                }
+
+                .tokenBlockchain {
+                    margin-right: var(--border-radius-s);
+                }
+            }
+
+            .tokenBody {
+                display: flex;
+                margin-left: auto;
+
+                .tokenCurrency {
+                    margin-right: 2px;
+                }
+            }
         }
     }
 }

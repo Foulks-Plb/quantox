@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import PieChart from './PieChart';
+import PieChart from '../../utils/components/chart/pieChart/PieChart';
 import { StoreWalletProps, Token } from '@/utils/types/wallet';
 import { getWallet } from '@/utils/store/wallet';
 import { connect } from 'react-redux';
@@ -88,52 +88,49 @@ const Page = ({ wallet, isLoading, error, getWallet }: StoreWalletProps) => {
       {chartsIsLoaded ? (
         <div className={styles.dashboard}>
           <div className={styles.main}>
-            <div className='d-flex justify-content-center'>
-              <InfoCard title='Balance' value={wallet?.total}/>
-              <InfoCard title='Balance' value={wallet?.total}/>
+            <div className="d-flex justify-content-center">
+              <InfoCard title="Balance" value={wallet?.total} />
+              <InfoCard title="Balance" value={wallet?.total} />
+            </div>
+            <div className="d-flex">
+              <PieChart
+                title="Blockchain"
+                series={seriesWallet}
+                options={optionsLocationBlockchain}
+                type="pie"
+                width='100%'
+              />
+              <PieChart
+                title="Application"
+                series={seriesWallet}
+                options={optionsLocationApp}
+                type="pie"
+                width='100%'
+              />
+              <PieChart
+                title="Location type"
+                series={seriesWallet}
+                options={optionsLocationType}
+                type="pie"
+                width='100%'
+              />
             </div>
           </div>
           <div className={styles.side}>
+            <div className={styles.sideChart}>
             <PieChart
               title="Tokens"
               series={seriesWallet}
               options={optionsWallet}
-              type='donut'
+              type="donut"
+              width='100%'
             />
-            <AllToken tokens={wallet?.tokens}/>
+            </div>
+            
+            <AllToken tokens={wallet?.tokens} />
           </div>
         </div>
       ) : (
-        // <div >
-        //   <div className="d-flex h2">
-        //     <p>{wallet?.total}</p>
-        //     <p>$</p>
-        //   </div>
-        //   <div className="d-flex">
-        //     <PieChart
-        //       title="Tokens"
-        //       series={seriesWallet}
-        //       options={optionsWallet}
-        //     />
-        //     <PieChart
-        //       title="Blockchain"
-        //       series={seriesWallet}
-        //       options={optionsLocationBlockchain}
-        //     />
-        //   </div>
-        //   <div className="d-flex">
-        //     <PieChart
-        //       title="Location type"
-        //       series={seriesWallet}
-        //       options={optionsLocationType}
-        //     />
-        //     <PieChart
-        //       title="Application"
-        //       series={seriesWallet}
-        //       options={optionsLocationApp}
-        //     />
-        //   </div>
-        // </div>
         <div className="spinner-border text-light" role="status"></div>
       )}
     </div>

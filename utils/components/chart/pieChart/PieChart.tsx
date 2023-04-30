@@ -1,9 +1,10 @@
 import { OptionPieChart, pieChartProps } from '@/utils/types/chart';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+import styles from './PieChart.module.scss';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export default function PieChart({ title, series, options, type }: pieChartProps) {
+export default function PieChart({ title, series, options, type, width }: pieChartProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [seriesSort, setSeriesSort] = useState<number[]>();
   const [optionsSort, setOptionsSort] = useState<OptionPieChart>();
@@ -32,20 +33,20 @@ export default function PieChart({ title, series, options, type }: pieChartProps
     const resultLabels: string[] = Object.keys(aggregatedData);
 
     setSeriesSort(resultSeries);
-    setOptionsSort({ labels: resultLabels, colors: options.colors });
+    setOptionsSort({ labels: resultLabels, colors: options.colors, stroke: { show: false }});
   }
 
   if (!seriesSort || !optionsSort) return <div></div>;
   return (
     <div id="chart">
-      <p className="h3 text-center">{title}</p>
+      <div className={styles.pieTitle}>{title}</div>
       {seriesSort.length !== 0 ? (
-        <div>
+        <div className='d-flex justify-content-center'>
           <Chart
             series={seriesSort}
             options={optionsSort}
             type={type}
-            width={350}
+            width={width}
           />
         </div>
       ) : (

@@ -1,12 +1,16 @@
 import { getWallet } from '@/utils/store/wallet';
 import { getResultsWithName } from '@/utils/ts/api-coingecko';
-import { StoreWalletProps } from '@/utils/types/wallet';
+import { StoreWalletProps, Token } from '@/utils/types/wallet';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import AutoComplete from '../../autoComplete/AutoComplete';
 
 function SwapForm({ wallet, isLoading, error, getWallet }: StoreWalletProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [isDecentralisedForm, setIsDecentralisedForm] = useState(true);
+
+  const [searchValue, setSearchValue] = useState<string>('')
+  const [inSearch, setInSearch] = useState(false);
 
   const [options, setOptions] = useState([]);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
@@ -45,6 +49,14 @@ function SwapForm({ wallet, isLoading, error, getWallet }: StoreWalletProps) {
     }
   }
 
+  function handleTokenSelection(event: any) {
+    setSearchValue(event?.target?.value);
+  }
+
+  function setOptionChoose(e: any) {
+    setSearchValue(e.token);
+  }
+
   return (
     <div>
       <input
@@ -54,14 +66,12 @@ function SwapForm({ wallet, isLoading, error, getWallet }: StoreWalletProps) {
         name="tokenFrom"
         placeholder="token name from"
         list="tokensFrom"
+        value={searchValue}
+        onChange={handleTokenSelection}
+        onFocus={() => {setInSearch(true)}}
+        onBlur={() => {setTimeout(() => setInSearch(false), 400)}}
       ></input>
-      <datalist id="tokensFrom">
-        {wallet?.tokens.map((item: any, i: number) => (
-          <div key={i}>
-            <option value={item.token}>{item.token + '-' + item.locationBlockchain + '-' + item.locationApp + '-' + item.locationType}</option>
-          </div>
-        ))}
-      </datalist>
+      {inSearch && <AutoComplete searchValue={searchValue} options={wallet?.tokens} setSearch={(e: any)=> {setOptionChoose(e)}}/> }
       <input
         autoComplete="off"
         className="form-control"

@@ -1,19 +1,19 @@
-import type { AppProps } from 'next/app'
-import 'bootstrap/dist/css/bootstrap.css'
-import '@/styles/globals.css'
+import type { AppProps } from 'next/app';
+import 'bootstrap/dist/css/bootstrap.css';
+import '@/styles/globals.css';
 
-import SideMenu from '../utils/components/sideMenu/SideMenu'
-import { Provider } from 'react-redux'
-import store from '@/utils/store/wallet'
+import SideMenu from '../utils/components/sideMenu/SideMenu';
+import { Provider } from 'react-redux';
+import store from '@/utils/store/wallet';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <div className="application">
       <Provider store={store}>
-      <SideMenu>
-        <Component {...pageProps} />
-      </SideMenu>
+          <SideMenu>
+            <Component {...pageProps} />
+          </SideMenu>
       </Provider>
-    </>
-  )
+    </div>
+  );
 }

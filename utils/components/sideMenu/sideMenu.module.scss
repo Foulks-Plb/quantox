@@ -3,9 +3,16 @@
     display: flex;
 
     .sideMenu {
+        background-color: var(--color-black);
         height: 100vh;
         width: 10vw;
         display: flex;
         flex-direction: column;
+
+        .logoMenu {
+            text-align: center;
+            color: white;
+            font-size: 24px;
+        }
     }
 }
