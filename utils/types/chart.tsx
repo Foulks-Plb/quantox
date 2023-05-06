@@ -4,10 +4,12 @@ export interface pieChartProps {
     options: OptionPieChart;
     type: 'donut' | 'pie';
     width: string
+    height: string
 }
 
 export interface OptionPieChart {
     labels: string[];
     colors: string[];
-    stroke?: any
+    stroke?: any;
+    legend?: any
 }

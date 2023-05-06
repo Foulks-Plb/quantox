@@ -5,24 +5,25 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import AutoComplete from '../../autoComplete/AutoComplete';
 
-function SwapForm({ wallet, isLoading, error, getWallet }: StoreWalletProps) {
+function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
   const [isMounted, setIsMounted] = useState(false);
   const [isDecentralisedForm, setIsDecentralisedForm] = useState(true);
 
-  const [searchValue, setSearchValue] = useState<string>('')
+  const [searchValue, setSearchValue] = useState<string>('');
   const [inSearch, setInSearch] = useState(false);
+  const [searchObject, setSearchObject] = useState<Token>();
 
   const [options, setOptions] = useState([]);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
 
   useEffect(() => {
-      if (isMounted) {
-        if (getWallet) getWallet()
-      } else {
-        setIsMounted(true);
-      }
+    if (isMounted) {
+      if (getWallet) getWallet();
+    } else {
+      setIsMounted(true);
+    }
   }, [isMounted]);
-  
+
   async function tokenOnChange(event: any) {
     const value = event.target.value;
     if (timeoutId) {
@@ -51,10 +52,16 @@ function SwapForm({ wallet, isLoading, error, getWallet }: StoreWalletProps) {
 
   function handleTokenSelection(event: any) {
     setSearchValue(event?.target?.value);
+    if (event?.target?.value !== searchObject?.token && searchObject) {
+      setSearchObject(undefined);
+      setTokenFrom(undefined)
+    }
   }
 
-  function setOptionChoose(e: any) {
-    setSearchValue(e.token);
+  function setOptionChoose(searchObject: any) {
+    setSearchObject(searchObject);
+    setSearchValue(searchObject.token);
+    setTokenFrom(searchObject)
   }
 
   return (
@@ -65,13 +72,29 @@ function SwapForm({ wallet, isLoading, error, getWallet }: StoreWalletProps) {
         type="text"
         name="tokenFrom"
         placeholder="token name from"
-        list="tokensFrom"
         value={searchValue}
         onChange={handleTokenSelection}
-        onFocus={() => {setInSearch(true)}}
-        onBlur={() => {setTimeout(() => setInSearch(false), 400)}}
+        onFocus={() => {
+          setInSearch(true);
+        }}
+        onBlur={() => {
+          setTimeout(() => setInSearch(false), 400);
+        }}
       ></input>
-      {inSearch && <AutoComplete searchValue={searchValue} options={wallet?.tokens} setSearch={(e: any)=> {setOptionChoose(e)}}/> }
+      {inSearch && (
+        <AutoComplete
+          searchValue={searchValue}
+          options={wallet?.tokens}
+          setSearch={(e: any) => {
+            setOptionChoose(e);
+          }}
+        />
+      )}
+      <div className="d-flex">
+        <div>{searchObject?.locationBlockchain}</div>
+        <div className="px-2">{searchObject?.locationApp}</div>
+        <div>{searchObject?.locationType}</div>
+      </div>
       <input
         autoComplete="off"
         className="form-control"
@@ -82,8 +105,8 @@ function SwapForm({ wallet, isLoading, error, getWallet }: StoreWalletProps) {
         name="amountFrom"
       ></input>
 
-      <div className='text-center text-primary'>↓↓↓↓↓↓↓↓</div>
-      
+      <div className="text-center text-primary">↓↓↓↓↓↓↓↓</div>
+
       <input
         autoComplete="off"
         className="form-control"

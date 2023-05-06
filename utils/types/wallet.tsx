@@ -15,7 +15,7 @@ export type Token = {
 
 export interface StoreWalletProps {
   wallet: Wallet | null;
-  isLoading: boolean;
-  error: string | null;
-  getWallet?: () => void;
+  isLoading?: boolean;
+  error?: string | null;
+  getWallet?: (force?: boolean) => void;
 }

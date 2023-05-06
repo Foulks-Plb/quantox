@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from './PieChart.module.scss';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export default function PieChart({ title, series, options, type, width }: pieChartProps) {
+export default function PieChart({ title, series, options, type, width, height }: pieChartProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [seriesSort, setSeriesSort] = useState<number[]>();
   const [optionsSort, setOptionsSort] = useState<OptionPieChart>();
@@ -15,7 +15,7 @@ export default function PieChart({ title, series, options, type, width }: pieCha
     } else {
       setIsMounted(true);
     }
-  }, [isMounted]);
+  }, [isMounted, series]);
 
   function initChart() {
     const aggregatedData: any = {};
@@ -33,12 +33,12 @@ export default function PieChart({ title, series, options, type, width }: pieCha
     const resultLabels: string[] = Object.keys(aggregatedData);
 
     setSeriesSort(resultSeries);
-    setOptionsSort({ labels: resultLabels, colors: options.colors, stroke: { show: false }});
+    setOptionsSort({ labels: resultLabels, colors: options.colors, stroke: { show: false }, legend: { position: 'bottom'}});
   }
 
   if (!seriesSort || !optionsSort) return <div></div>;
   return (
-    <div id="chart">
+    <div>
       <div className={styles.pieTitle}>{title}</div>
       {seriesSort.length !== 0 ? (
         <div className='d-flex justify-content-center'>
@@ -47,6 +47,7 @@ export default function PieChart({ title, series, options, type, width }: pieCha
             options={optionsSort}
             type={type}
             width={width}
+            height={height}
           />
         </div>
       ) : (

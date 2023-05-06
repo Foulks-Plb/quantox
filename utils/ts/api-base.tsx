@@ -18,3 +18,17 @@ export async function postCall(url: string, data: any) {
         console.error(error);
       }
 }
+
+export async function deleteId(url: string, id: string) {
+  try {
+      const data = {
+        params : {
+          id: id
+        }
+      };
+      const response = await axios.delete(url, data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+}

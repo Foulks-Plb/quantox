@@ -5,10 +5,12 @@ import { getWallet } from '@/utils/store/wallet';
 import { connect } from 'react-redux';
 import { OptionPieChart } from '@/utils/types/chart';
 import styles from './home.module.scss';
-import InfoCard from '@/utils/components/infoCard/InfoCard';
+import InfoCard from '@/utils/components/card/infoCard/InfoCard';
+import ReloadCard from '@/utils/components/card/reloadCard/ReloadCard';
 import AllToken from '@/utils/components/allToken/AllToken';
+import { colorsPieChart } from '@/utils/constant';
 
-const Page = ({ wallet, isLoading, error, getWallet }: StoreWalletProps) => {
+const Page = ({ wallet, getWallet }: StoreWalletProps) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const [chartsIsLoaded, setChartsIsLoaded] = useState(false);
@@ -42,6 +44,7 @@ const Page = ({ wallet, isLoading, error, getWallet }: StoreWalletProps) => {
   }, [wallet, isMounted]);
 
   async function initCharts() {
+    setChartsIsLoaded(false);
     let _seriesWallet: number[] = [];
     let _labelsToken: string[] = [];
     let _labelsLocationType: string[] = [];
@@ -65,19 +68,19 @@ const Page = ({ wallet, isLoading, error, getWallet }: StoreWalletProps) => {
     setSeriesWallet(_seriesWallet);
     setOptionsWallet({
       labels: _labelsToken,
-      colors: ['#C6D0BC', '#F6D78B', '#A3A7FC', '#8CA473', '#F8F7F1'],
+      colors: colorsPieChart,
     });
     setOptionsLocationType({
       labels: _labelsLocationType,
-      colors: ['#C6D0BC', '#F6D78B', '#A3A7FC', '#8CA473', '#F8F7F1'],
+      colors: ['#C6D0BC', '#A3A7FC'],
     });
     setOptionsLocationApp({
       labels: _labelsLocationApp,
-      colors: ['#C6D0BC', '#F6D78B', '#A3A7FC', '#8CA473', '#F8F7F1'],
+      colors: colorsPieChart,
     });
     setOptionsLocationBlockchain({
       labels: _labelsLocationBlockchain,
-      colors: ['#C6D0BC', '#F6D78B', '#A3A7FC', '#8CA473', '#F8F7F1'],
+      colors: colorsPieChart,
     });
 
     setChartsIsLoaded(true);
@@ -90,29 +93,32 @@ const Page = ({ wallet, isLoading, error, getWallet }: StoreWalletProps) => {
           <div className={styles.main}>
             <div className="d-flex justify-content-center">
               <InfoCard title="Balance" value={wallet?.total} />
-              <InfoCard title="Balance" value={wallet?.total} />
+              <ReloadCard />
             </div>
-            <div className="d-flex">
+            <div className="d-flex justify-content-center">
               <PieChart
                 title="Blockchain"
                 series={seriesWallet}
                 options={optionsLocationBlockchain}
                 type="pie"
-                width='100%'
+                width='250px'
+                height='250px'
               />
               <PieChart
                 title="Application"
                 series={seriesWallet}
                 options={optionsLocationApp}
                 type="pie"
-                width='100%'
+                width='250px'
+                height='250px'
               />
               <PieChart
                 title="Location type"
                 series={seriesWallet}
                 options={optionsLocationType}
                 type="pie"
-                width='100%'
+                width='250px'
+                height='250px'
               />
             </div>
           </div>
@@ -124,6 +130,7 @@ const Page = ({ wallet, isLoading, error, getWallet }: StoreWalletProps) => {
               options={optionsWallet}
               type="donut"
               width='100%'
+              height='300px'
             />
             </div>
             

@@ -5,10 +5,12 @@ import { authorId } from '@/utils/constant';
 import SwapForm from './swap-form/Swap-Form';
 import AddForm from './add-form/Add-Form';
 import { LowerCTrim } from '@/utils/ts/pipe';
+import { Token } from '@/utils/types/wallet';
 
 
 export default function Dialog({ emitCloseDialog }: any) {
   const [actionType, setActionType] = useState('add');
+  const [tokenFromObject, setTokenFromObject] = useState<Token>();
 
   const handleActionTypeChange = (event: any) => {
     setActionType(event.target.value);
@@ -18,17 +20,21 @@ export default function Dialog({ emitCloseDialog }: any) {
     emitCloseDialog();
   }
 
+  function setTokenFrom(token: Token) {
+    setTokenFromObject(token)
+  }
+
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     postCall('/api/addHistory', {
       authorId: authorId,
       action: LowerCTrim(event.target.actionType.value),
       from: {
-        token: event.target.tokenFrom?.value || '',
+        token: tokenFromObject?.token || '',
         amount: parseFloat(event.target.amountFrom?.value) || 0,
-        locationBlockchain: 'ethereum',
-        locationApp: 'aave',
-        locationType: 'decentralised',
+        locationBlockchain: tokenFromObject?.locationBlockchain || '',
+        locationApp: tokenFromObject?.locationApp || '',
+        locationType: tokenFromObject?.locationType || '',
       },
       to: {
         token: event.target.tokenTo?.value || '',
@@ -62,7 +68,9 @@ export default function Dialog({ emitCloseDialog }: any) {
             <option value="add">ADD</option>
             <option value="swap">SWAP</option>
           </select>
-          {actionType === 'add' ? <AddForm /> : <SwapForm />}
+          {actionType === 'add' ? <AddForm /> : <SwapForm setTokenFrom={(e: any) => {
+            setTokenFrom(e);
+          }}/>}
           <button type="submit" className="btn btn-primary">
             submit
           </button>
