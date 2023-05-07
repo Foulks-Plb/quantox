@@ -10,6 +10,7 @@ import { useSession } from 'next-auth/react';
 
 export default function Dialog({ emitCloseDialog }: any) {
   const { data: session } = useSession();
+
   const [actionType, setActionType] = useState('add');
   const [tokenFromObject, setTokenFromObject] = useState<Token>();
 
