@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './sideMenu.module.scss';
+import styles from './sidemenu.module.scss';
 import Link from 'next/link';
 import Dialog from '../dialog/Dialog';
 import { signOut, useSession } from 'next-auth/react';

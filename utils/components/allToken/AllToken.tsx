@@ -1,5 +1,5 @@
 import { Token } from '@/utils/types/wallet';
-import styles from './allToken.module.scss';
+import styles from './alltoken.module.scss';
 import TokenDisplay from './tokenDisplay/TokenDisplay';
 
 export default function AllToken({ tokens }: any) {

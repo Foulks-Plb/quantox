@@ -1,5 +1,5 @@
 import { signIn } from 'next-auth/react';
-import Styles from './signInForm.module.scss';
+import Styles from './signinform.module.scss';
 
 export default function SignInForm() {
   function sign(event: any) {

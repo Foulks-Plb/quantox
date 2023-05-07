@@ -1,4 +1,4 @@
-import styles from './infoCard.module.scss';
+import styles from './infocard.module.scss';
 
 export default function InfoCard({ title, value}: any) {
     return (

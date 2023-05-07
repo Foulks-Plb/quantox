@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './autoComplete.module.scss';
+import styles from './autocomplete.module.scss';
 
 const AutoComplete = ({ searchValue, options, setSearch }: any) => {
   const [filteredOptions, setFilteredOptions] = useState([]);
