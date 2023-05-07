@@ -1,4 +1,4 @@
-import styles from 'scss/Dialog.module.scss';
+import styles from './dialog.module.scss';
 import { useState } from 'react';
 import { postCall } from '@/utils/ts/api-base';
 import SwapForm from './swap-form/Swap-Form';
