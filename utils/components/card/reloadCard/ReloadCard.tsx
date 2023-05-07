@@ -1,5 +1,5 @@
 import { StoreWalletProps } from '@/utils/types/wallet';
-import styles from './ReloadCard.module.scss';
+import styles from './reloadCard.module.scss';
 import { connect } from 'react-redux';
 import { getWallet } from '@/utils/store/wallet';
 

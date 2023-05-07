@@ -1,7 +1,7 @@
 import { OptionPieChart, pieChartProps } from '@/utils/types/chart';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-import styles from './PieChart.module.scss';
+import styles from './pieChart.module.scss';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function PieChart({ title, series, options, type, width, height }: pieChartProps) {

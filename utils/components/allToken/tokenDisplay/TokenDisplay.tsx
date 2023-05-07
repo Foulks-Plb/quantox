@@ -1,5 +1,5 @@
 import { deleteId } from '@/utils/ts/api-base';
-import styles from './TokenDisplay.module.scss';
+import styles from './tokenDisplay.module.scss';
 
 export default function TokenDisplay({ token }: any) {
   function deleteToken() {
