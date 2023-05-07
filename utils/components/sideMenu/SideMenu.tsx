@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './sidemenu.module.scss';
 import Link from 'next/link';
 import Dialog from '../dialog/Dialog';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import SignIn from '../auth/signInForm/SignInForm';
 
 const SideMenu = ({ children }: { children: React.ReactNode }) => {
