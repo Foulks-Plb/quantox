@@ -13,8 +13,8 @@ async function register(data: any) {
     try {
         await prisma.user.create({
             data: {
-                name: 'foulk2',
-                email: 'foulk2@ox.com',
+                name: 'foulk1',
+                email: 'foulk1@ox.com',
                 password: await bcrypt.hash('password', 10)
             }
         })

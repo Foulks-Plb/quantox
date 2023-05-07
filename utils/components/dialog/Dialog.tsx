@@ -1,14 +1,15 @@
 import styles from './Dialog.module.scss';
 import { useState } from 'react';
 import { postCall } from '@/utils/ts/api-base';
-import { authorId } from '@/utils/constant';
 import SwapForm from './swap-form/Swap-Form';
 import AddForm from './add-form/Add-Form';
 import { LowerCTrim } from '@/utils/ts/pipe';
 import { Token } from '@/utils/types/wallet';
+import { useSession } from 'next-auth/react';
 
 
 export default function Dialog({ emitCloseDialog }: any) {
+  const { data: session } = useSession();
   const [actionType, setActionType] = useState('add');
   const [tokenFromObject, setTokenFromObject] = useState<Token>();
 
@@ -27,7 +28,7 @@ export default function Dialog({ emitCloseDialog }: any) {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     postCall('/api/addHistory', {
-      authorId: authorId,
+      authorId: session?.user.id,
       action: LowerCTrim(event.target.actionType.value),
       from: {
         token: tokenFromObject?.token || '',

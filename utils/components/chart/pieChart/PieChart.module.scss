@@ -1,6 +1,10 @@
-.pieTitle {
-    text-align: center;
-    color: var(--color-black);
-    font-size: 32px;
-    font-weight: 700;
+.pieChart {
+    margin: 0 16px;
+
+    .pieTitle {
+        text-align: center;
+        color: var(--color-black);
+        font-size: 32px;
+        font-weight: 700;
+    }
 }

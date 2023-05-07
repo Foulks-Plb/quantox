@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../lib/prisma';
-import { authorId } from '@/utils/constant';
+import { getSession } from 'next-auth/react';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<any[]>,
+  res: NextApiResponse<any>,
 ) {
   if (req.method === 'POST') {
     createHistory(req.body)
@@ -29,7 +29,7 @@ async function addHistory(data: any) {
   await prisma.$transaction([
     prisma.history.create({
       data: {
-        authorId: authorId,
+        authorId: data.authorId,
         action: data.action,
         tokenFrom: data.from.token,
         amountFrom: data.from.amount,
@@ -47,7 +47,7 @@ async function addHistory(data: any) {
     prisma.token.upsert({
       where: {
         locationBlockchain_locationApp_locationType_token_authorId: {
-          authorId: authorId,
+          authorId: data.authorId,
           locationBlockchain: data.to.locationBlockchain,
           locationApp: data.to.locationApp,
           locationType: data.to.locationType,
@@ -60,7 +60,7 @@ async function addHistory(data: any) {
         }
       },
       create: {
-        authorId: authorId,
+        authorId: data.authorId,
         amount: data.to.amount,
         token: data.to.token,
         locationBlockchain: data.to.locationBlockchain,
@@ -75,7 +75,7 @@ async function swapHistory(data: any) {
   await prisma.$transaction([
     prisma.history.create({
       data: {
-        authorId: authorId,
+        authorId: data.authorId,
         action: data.action,
         tokenFrom: data.from.token,
         amountFrom: data.from.amount,
@@ -93,7 +93,7 @@ async function swapHistory(data: any) {
     prisma.token.update({
       where: {
         locationBlockchain_locationApp_locationType_token_authorId: {
-          authorId: authorId,
+          authorId: data.authorId,
           locationBlockchain: data.from.locationBlockchain,
           locationApp: data.from.locationApp,
           locationType: data.from.locationType,
@@ -109,7 +109,7 @@ async function swapHistory(data: any) {
     prisma.token.upsert({
       where: {
         locationBlockchain_locationApp_locationType_token_authorId: {
-          authorId: authorId,
+          authorId: data.authorId,
           locationBlockchain: data.to.locationBlockchain,
           locationApp: data.to.locationApp,
           locationType: data.to.locationType,
@@ -122,7 +122,7 @@ async function swapHistory(data: any) {
         }
       },
       create: {
-        authorId: authorId,
+        authorId: data.authorId,
         amount: data.to.amount,
         token: data.to.token,
         locationBlockchain: data.to.locationBlockchain,

@@ -2,6 +2,7 @@ import { legacy_createStore as createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { getCall } from '../ts/api-base';
 import { StoreWalletProps, Wallet } from '../types/wallet';
+import { getSession } from 'next-auth/react';
 
 const initialStateWallet: StoreWalletProps = {
   wallet: null,

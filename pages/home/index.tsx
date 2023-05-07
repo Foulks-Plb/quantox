@@ -9,6 +9,7 @@ import InfoCard from '@/utils/components/card/infoCard/InfoCard';
 import ReloadCard from '@/utils/components/card/reloadCard/ReloadCard';
 import AllToken from '@/utils/components/allToken/AllToken';
 import { colorsPieChart } from '@/utils/constant';
+import { useSession } from 'next-auth/react';
 
 const Page = ({ wallet, getWallet }: StoreWalletProps) => {
   const [isMounted, setIsMounted] = useState(false);

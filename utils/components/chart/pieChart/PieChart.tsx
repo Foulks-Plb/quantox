@@ -38,7 +38,7 @@ export default function PieChart({ title, series, options, type, width, height }
 
   if (!seriesSort || !optionsSort) return <div></div>;
   return (
-    <div>
+    <div className={styles.pieChart}>
       <div className={styles.pieTitle}>{title}</div>
       {seriesSort.length !== 0 ? (
         <div className='d-flex justify-content-center'>
