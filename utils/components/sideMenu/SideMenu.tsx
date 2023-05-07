@@ -16,8 +16,6 @@ const SideMenu = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  // signOut()
-
   return (
     <>
       <div className={styles.main}>
