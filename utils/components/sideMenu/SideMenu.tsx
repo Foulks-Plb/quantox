@@ -2,9 +2,28 @@ import { useState } from 'react';
 import styles from './SideMenu.module.scss';
 import Link from 'next/link';
 import Dialog from '../dialog/Dialog';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 const SideMenu = ({ children }: { children: React.ReactNode }) => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
+
+  const { data: session } = useSession();
+
+  if (session) {
+    return (
+      <>
+        Signed in as {session?.user?.email} <br />
+        <button onClick={() => signOut()}>Sign out</button>
+      </>
+    )
+  }
+  return (
+    <>
+      Not signed in <br />
+      <button onClick={() => signIn()}>Sign in</button>
+    </>
+  )
+
   // const [isMounted, setIsMounted] = useState(false);
 
   // useEffect(() => {

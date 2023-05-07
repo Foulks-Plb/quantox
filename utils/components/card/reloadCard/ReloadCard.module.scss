@@ -11,18 +11,5 @@
         display: flex;
         align-items: center;
         justify-content: center;
-
-        .boutonRefresh {
-            background-color: var(--color-purple2);
-            color: var(--color-white);
-            padding: 4px 16px;
-            margin: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: var(--border-radius-s);
-            font-weight: 700;
-            cursor: pointer;
-        }
     }
 }

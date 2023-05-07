@@ -3,7 +3,7 @@ import styles from './ReloadCard.module.scss';
 import { connect } from 'react-redux';
 import { getWallet } from '@/utils/store/wallet';
 
-function ReloadCard({ wallet, getWallet }: StoreWalletProps) {
+function ReloadCard({ getWallet }: StoreWalletProps) {
 
     function refresh() {
         if (getWallet) getWallet(true);
@@ -12,7 +12,7 @@ function ReloadCard({ wallet, getWallet }: StoreWalletProps) {
     return (
         <div className={styles.infoCard}>
             <div className={styles.body}>
-                <div onClick={refresh} className={styles.boutonRefresh}>refresh</div>
+                <button onClick={refresh} type="button" className="btn btn-primary">refresh</button>
             </div>
         </div>     
     )

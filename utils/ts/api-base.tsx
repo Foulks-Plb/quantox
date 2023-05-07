@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Token } from "../types/wallet";
 
 export async function getCall(url: string) {
   console.log('call');
@@ -19,11 +20,11 @@ export async function postCall(url: string, data: any) {
       }
 }
 
-export async function deleteId(url: string, id: string) {
+export async function deleteId(url: string, token: Token) {
   try {
       const data = {
         params : {
-          id: id
+          ...token
         }
       };
       const response = await axios.delete(url, data);

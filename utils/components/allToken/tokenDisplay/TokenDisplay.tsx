@@ -3,7 +3,7 @@ import styles from './TokenDisplay.module.scss';
 
 export default function TokenDisplay({ token }: any) {
   function deleteToken() {
-    deleteId('/api/deleteToken', token.id);
+    deleteId('/api/deleteToken', token);
   }
 
     return (
