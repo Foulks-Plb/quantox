@@ -7,6 +7,9 @@ export default NextAuth({
     session: {
         strategy: 'jwt',
     },
+    jwt: {
+        secret: process.env.NEXTAUTH_SECRET,
+    },
     providers: [
         CredentialsProvider({
             name: 'credentials',
