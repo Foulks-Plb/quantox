@@ -15,7 +15,7 @@ export default function Page() {
   }, [isMounted]);
 
   async function getHistory() {
-    const history = await getCall('/backend/history');
+    const history = await getCall('/api/history');
     setHistory(history);
   }
 

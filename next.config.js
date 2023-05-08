@@ -6,13 +6,6 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
-  build: {
-    extend(config, {}) {
-        config.node = {
-            fs: 'empty'
-        }
-    }
-  }
 }
 
 module.exports = nextConfig
