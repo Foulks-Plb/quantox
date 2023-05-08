@@ -43,7 +43,7 @@ export const getWallet = (force?: boolean) => async (dispatch: any, getState: an
       return wallet;
     }
 
-    const response = await getCall('/api/wallet');
+    const response = await getCall('/backend/wallet');
     dispatch(fetchWalletSuccess(response));
     return response;
   } catch (error) {

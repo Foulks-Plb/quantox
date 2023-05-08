@@ -28,7 +28,7 @@ export default function Dialog({ emitCloseDialog }: any) {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    postCall('/api/addHistory', {
+    postCall('/backend/addHistory', {
       authorId: session?.user.id,
       action: LowerCTrim(event.target.actionType.value),
       from: {
