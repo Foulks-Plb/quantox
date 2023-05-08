@@ -6,6 +6,9 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  async rewrites() {
+    return [{ source: '/api/:path*', destination: '/myapi/:path*' }]
+  },
 }
 
 module.exports = nextConfig

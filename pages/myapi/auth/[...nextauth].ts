@@ -30,13 +30,13 @@ export default NextAuth({
         }),
     ],
     secret: process.env.NEXT_PUBLIC_SECRET,
-    // callbacks: {
-    //     async session(session: any) {
-    //         const sessionReturn = {
-    //             expires: session.session.expires,
-    //             user: { ...session.session.user, id: session.token.sub },
-    //         };
-    //         return Promise.resolve(sessionReturn);
-    //     },
-    // },
+    callbacks: {
+        async session(session: any) {
+            const sessionReturn = {
+                expires: session.session.expires,
+                user: { ...session.session.user, id: session.token.sub },
+            };
+            return Promise.resolve(sessionReturn);
+        },
+    },
 });
