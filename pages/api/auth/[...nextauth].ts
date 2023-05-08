@@ -7,7 +7,6 @@ export default NextAuth({
     session: {
         strategy: 'jwt',
     },
-    secret: process.env.AUTH_SECRET,
     providers: [
         CredentialsProvider({
             name: 'credentials',
@@ -33,6 +32,7 @@ export default NextAuth({
             },
         }),
     ],
+    secret: process.env.NEXT_PUBLIC_SECRET,
     callbacks: {
         async session(session: any) {
             const sessionReturn = {
