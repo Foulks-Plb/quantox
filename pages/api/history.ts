@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../lib/prisma';
 import { getSession } from 'next-auth/react';
-import { getServerSession } from 'next-auth';
 
 export default function handler(
   req: NextApiRequest,
@@ -15,7 +14,7 @@ export default function handler(
 }
 
 async function getHistory(req: NextApiRequest) {
-  const session = await getServerSession(req)
+  const session = await getSession({ req })
   const history = await prisma.history.findMany({
     where: {
       authorId: session?.user.id

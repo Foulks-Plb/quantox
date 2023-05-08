@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 import { getPricesCoingecko } from '@/utils/ts/api-coingecko';
 import { Wallet, Token } from '@/utils/types/wallet';
 import { fixed2 } from '@/utils/ts/pipe';
-import { getServerSession } from 'next-auth';
+import { getSession } from 'next-auth/react';
 
 export default function handler(
   req: NextApiRequest,
@@ -41,7 +41,7 @@ export default function handler(
 }
 
 async function getTokens(req: NextApiRequest) {
-  const session = await getServerSession(req)
+  const session = await getSession({ req })
   const tokens = await prisma.token.findMany({
     where: {
       authorId: session?.user.id,
