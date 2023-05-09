@@ -6,7 +6,8 @@ import prisma from '../../../lib/prisma';
 export default NextAuth({
     providers: [
         CredentialsProvider({
-            name: 'credentials',
+            id: "domain-login",
+            name: "Domain Account",
             credentials: {
                 email: { label: 'Email', type: 'text' },
                 password: { label: 'Password', type: 'password' },
@@ -31,7 +32,7 @@ export default NextAuth({
     ],
     secret: process.env.NEXT_PUBLIC_SECRET,
     callbacks: {
-        async session(session: any) {
+        async session(session) {
             const sessionReturn = {
                 expires: session.session.expires,
                 user: { ...session.session.user, id: session.token.sub },
