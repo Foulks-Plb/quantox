@@ -40,5 +40,8 @@
     "prisma": "^4.13.0",
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2"
-  }
+  },
+  "browser":{
+    "child_process": false
+    } 
 }
