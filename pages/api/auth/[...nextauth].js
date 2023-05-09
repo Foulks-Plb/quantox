@@ -30,7 +30,7 @@ export default NextAuth({
             },
         }),
     ],
-    secret: process.env.NEXT_PUBLIC_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         async session(session) {
             const sessionReturn = {
