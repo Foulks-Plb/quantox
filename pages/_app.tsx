@@ -1,5 +1,4 @@
 import type { AppProps } from 'next/app';
-import 'bootstrap/dist/css/bootstrap.css';
 import '@/styles/globals.css';
 import { SessionProvider } from 'next-auth/react';
 import SideMenu from '../utils/components/sideMenu/SideMenu';
