@@ -1,18 +1,7 @@
 .home {
-    .dashboard {
-        display: flex;
-
-        .main {
-            width: 60vw;
-            min-height: 100%;
-        }
-
-        .side {
-            width: 30vw;
-
-            .sideChart {
-                background-color: var(--color-white);
-            }
+    .side {
+        .sideChart {
+            background-color: var(--color-white);
         }
     }
 }

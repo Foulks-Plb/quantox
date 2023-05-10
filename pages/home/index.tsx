@@ -88,48 +88,54 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
   }
 
   return (
-    <div className={styles.home}>
-      {chartsIsLoaded ? (
-        <div className={styles.dashboard}>
-          <div className={styles.main}>
-            <div className="d-flex justify-content-center">
+    <div className="flex">
+  <div className="w-2/3">
+        
+             <div className="flex content-center w-full">
+              
               <InfoCard title="Balance" value={wallet?.total} />
+              
+              
               <ReloadCard />
-            </div>
-            <div className="d-flex justify-content-center">
-              <PieChart
-                title="Blockchain"
-                series={seriesWallet}
-                options={optionsLocationBlockchain}
-                type="pie"
-                width='250px'
-                height='250px'
-              />
-              <PieChart
-                title="Application"
-                series={seriesWallet}
-                options={optionsLocationApp}
-                type="pie"
-                width='250px'
-                height='250px'
-              />
-              <PieChart
-                title="Location type"
-                series={seriesWallet}
-                options={optionsLocationType}
-                type="pie"
-                width='250px'
-                height='250px'
-              />
-            </div>
-          </div>
-          <div className={styles.side}>
-            <div className={styles.sideChart}>
-            <PieChart
-              title="Tokens"
-              series={seriesWallet}
+              
+               
+               
+             </div>
+             <div className="flex content-center">
+               <PieChart
+                 title="Blockchain"
+                 series={seriesWallet}
+                 options={optionsLocationBlockchain}
+                 type="pie"
+                 width='100%'
+                 height='250px'
+               />
+               <PieChart
+                 title="Application"
+                 series={seriesWallet}
+                 options={optionsLocationApp}
+                 type="pie"
+                 width='100%'
+                 height='250px'
+               />
+               <PieChart
+                 title="Location type"
+                 series={seriesWallet}
+                 options={optionsLocationType}
+                 type="pie"
+                 width='100%'
+                 height='250px'
+               />
+             </div>
+           
+  </div>
+  <div className="w-1/3">
+           <div className={styles.sideChart}>
+             <PieChart
+               title="Tokens"
+               series={seriesWallet}
               options={optionsWallet}
-              type="donut"
+               type="donut"
               width='100%'
               height='300px'
             />
@@ -137,11 +143,62 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
             
             <AllToken tokens={wallet?.tokens} />
           </div>
-        </div>
-      ) : (
-        <div className="spinner-border text-light" role="status"></div>
-      )}
-    </div>
+  </div>
+
+    // <div className={styles.home}>
+    //   {chartsIsLoaded ? (
+    //     <div className={styles.dashboard}>
+    //       <div className={styles.main}>
+    //         <div className=" ">
+    //           <InfoCard title="Balance" value={wallet?.total} />
+    //           <ReloadCard />
+    //         </div>
+    //         <div className=" ">
+    //           <PieChart
+    //             title="Blockchain"
+    //             series={seriesWallet}
+    //             options={optionsLocationBlockchain}
+    //             type="pie"
+    //             width='250px'
+    //             height='250px'
+    //           />
+    //           <PieChart
+    //             title="Application"
+    //             series={seriesWallet}
+    //             options={optionsLocationApp}
+    //             type="pie"
+    //             width='250px'
+    //             height='250px'
+    //           />
+    //           <PieChart
+    //             title="Location type"
+    //             series={seriesWallet}
+    //             options={optionsLocationType}
+    //             type="pie"
+    //             width='250px'
+    //             height='250px'
+    //           />
+    //         </div>
+    //       </div>
+    //       <div className={styles.side}>
+    //         <div className={styles.sideChart}>
+    //         <PieChart
+    //           title="Tokens"
+    //           series={seriesWallet}
+    //           options={optionsWallet}
+    //           type="donut"
+    //           width='100%'
+    //           height='300px'
+    //         />
+    //         </div>
+            
+    //         <AllToken tokens={wallet?.tokens} />
+    //       </div>
+    //     </div>
+    //   ) : (
+    //     <div className="spinner-border text-light" role="status"></div>
+    //   )}
+    // </div>
   );
 };
 

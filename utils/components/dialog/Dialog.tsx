@@ -7,8 +7,7 @@ import { LowerCTrim } from '@/utils/ts/pipe';
 import { Token } from '@/utils/types/wallet';
 import { useSession } from 'next-auth/react';
 
-
-export default function Dialog({ emitCloseDialog }: any) {
+export default function Dialog() {
   const { data: session } = useSession();
 
   const [actionType, setActionType] = useState('add');
@@ -18,12 +17,8 @@ export default function Dialog({ emitCloseDialog }: any) {
     setActionType(event.target.value);
   };
 
-  function closeDialog() {
-    emitCloseDialog();
-  }
-
   function setTokenFrom(token: Token) {
-    setTokenFromObject(token)
+    setTokenFromObject(token);
   }
 
   const handleSubmit = async (event: any) => {
@@ -41,42 +36,53 @@ export default function Dialog({ emitCloseDialog }: any) {
       to: {
         token: event.target.tokenTo?.value || '',
         amount: parseFloat(event.target.amountTo?.value) || 0,
-        locationBlockchain: LowerCTrim(event.target.locationBlockchain?.value || ''),
+        locationBlockchain: LowerCTrim(
+          event.target.locationBlockchain?.value || '',
+        ),
         locationApp: LowerCTrim(event.target.locationApplication?.value) || '',
         locationType: LowerCTrim(event.target.locationType?.value) || '',
       },
       processAt: new Date(),
     });
-    closeDialog();
   };
 
   return (
-    <div className={styles.allView}>
-      <div className={styles.dialog}>
-        <button
-          type="button"
-          className="btn-close"
-          aria-label="Close"
-          onClick={closeDialog}
-        ></button>
-        <form onSubmit={handleSubmit}>
-          <select
-            className="form-select"
-            aria-label="Action type"
-            name="actionType"
-            onChange={handleActionTypeChange}
-            value={actionType}
+    <div>
+      <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box relative">
+          <label
+            htmlFor="my-modal-3"
+            className="btn btn-sm btn-circle absolute right-2 top-2"
           >
-            <option value="add">ADD</option>
-            <option value="swap">SWAP</option>
-          </select>
-          {actionType === 'add' ? <AddForm /> : <SwapForm setTokenFrom={(e: any) => {
-            setTokenFrom(e);
-          }}/>}
-          <button type="submit" className="btn btn-primary">
-            submit
-          </button>
-        </form>
+            ✕
+          </label>
+          <h3 className="text-lg font-bold">Add tokens to your wallet</h3>
+          <form onSubmit={handleSubmit}>
+            <select
+              className="form-select"
+              aria-label="Action type"
+              name="actionType"
+              onChange={handleActionTypeChange}
+              value={actionType}
+            >
+              <option value="add">ADD</option>
+              <option value="swap">SWAP</option>
+            </select>
+            {actionType === 'add' ? (
+              <AddForm />
+            ) : (
+              <SwapForm
+                setTokenFrom={(e: any) => {
+                  setTokenFrom(e);
+                }}
+              />
+            )}
+            <button type="submit" className="btn btn-primary">
+              submit
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

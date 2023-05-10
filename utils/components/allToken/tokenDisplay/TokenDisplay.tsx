@@ -13,7 +13,7 @@ export default function TokenDisplay({ token }: any) {
             <div className={styles.tokenAmount}>{token.amount}</div>
             <div>{token.token}</div>
           </div>
-          <div className="d-flex">
+          <div className="">
             {token.locationBlockchain && (
               <div className={styles.tokenBlockchain}>
                 {token.locationBlockchain}

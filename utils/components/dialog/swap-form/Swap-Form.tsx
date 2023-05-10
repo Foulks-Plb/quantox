@@ -90,7 +90,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
           }}
         />
       )}
-      <div className="d-flex">
+      <div className="">
         <div>{searchObject?.locationBlockchain}</div>
         <div className="px-2">{searchObject?.locationApp}</div>
         <div>{searchObject?.locationType}</div>

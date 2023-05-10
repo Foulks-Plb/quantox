@@ -8,46 +8,33 @@ import SignIn from '../auth/signInForm/SignInForm';
 const SideMenu = ({ children }: { children: React.ReactNode }) => {
   const { data: session } = useSession();
 
-  const [dialogIsOpen, setDialogIsOpen] = useState(false);
-
-  function toggleDialog() {
-    if (session) {
-      setDialogIsOpen(!dialogIsOpen);
-    }
-  }
-
   return (
     <>
-      <div className={styles.main}>
-        <div className={styles.sideMenu}>
-          <h1 className={styles.logoMenu}>Quantox</h1>
-          <div className="text-center h-100">
-              <div>
-                <Link href="/home">Home</Link>
-              </div>
-              <div>
-                <Link href="/history">history</Link>
-              </div>
-          </div>
-          <div className="text-center mt-auto">
-            <div className="card-body">
-              <h5 className="card-title">Add transaction/action</h5>
-              <button
-                type="button"
-                className="btn btn-light"
-                onClick={toggleDialog}
-              >
-                Add
-              </button>
+      <div className="drawer drawer-mobile">
+        <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content">
+          {/* <label className="btn btn-primary drawer-button lg:hidden">
+            Open drawer
+          </label> */}
+          <main>{session ? children : <SignIn />}</main>
+          <Dialog />
+        </div>
+        <div className="drawer-side">
+          <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+          <ul className="menu p-4 w-40 bg-base-100 text-base-content relative">
+            <li>
+              <Link href="/home">Home</Link>
+            </li>
+            <li>
+              <Link href="/history">History</Link>
+            </li>
+            <div className="absolute bottom-0 inset-x-0 p-4">
+              <label htmlFor="my-modal-3" className="btn">
+                Add token
+              </label>
             </div>
-          </div>
+          </ul>
         </div>
-        <div>
-          <main>
-            {session ? children: <SignIn /> }
-          </main>
-        </div>
-        {dialogIsOpen ? <Dialog emitCloseDialog={toggleDialog} /> : null}
       </div>
     </>
   );
