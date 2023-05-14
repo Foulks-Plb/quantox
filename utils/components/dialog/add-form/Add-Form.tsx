@@ -35,64 +35,80 @@ export default function AddForm() {
   }
 
   return (
-    <div>
-      <input
-        autoComplete="off"
-        className="form-control"
-        type="text"
-        name="tokenTo"
-        placeholder="token name"
-        list="tokensTo"
-        onChange={(event) => tokenOnChange(event)}
-      ></input>
-      <datalist id="tokensTo">
-        {options.map((item: any, i: number) => (
-          <div key={i}>
-            <option value={item.api_symbol}>{item.name}</option>
-          </div>
-        ))}
-      </datalist>
-      <input
-        autoComplete="off"
-        className="form-control"
-        type="number"
-        step="any"
-        min="0"
-        placeholder="token amount"
-        name="amountTo"
-      ></input>
-      <select
-        className="form-select"
-        aria-label="Choose environment"
-        name="locationType"
-        onChange={(e) => {
-          setLocationType(e.target.value);
-        }}
-      >
-        <option value="decentralised">Decentralised</option>
-        <option value="centralised">Centralised</option>
-      </select>
+    <div className="form-control">
+      <label className="input-group input-group-sm mb-2">
+        <span>Token</span>
+        <input
+          autoComplete="off"
+          name="tokenTo"
+          type="text"
+          placeholder="ethereum"
+          className="input input-bordered input-sm"
+          onChange={(event) => tokenOnChange(event)}
+          list="tokensTo"
+        />
+        <datalist id="tokensTo">
+          {options.map((item: any, i: number) => (
+            <div key={i}>
+              <option value={item.api_symbol}>{item.name}</option>
+            </div>
+          ))}
+        </datalist>
+      </label>
+      <label className="input-group input-group-sm mb-2">
+        <span>Amount</span>
+        <input
+          autoComplete="off"
+          name="amountTo"
+          type="text"
+          placeholder="0.1"
+          className="input input-bordered input-sm"
+        />
+      </label>
+      <div className="input-group input-group-sm mb-2">
+        <select
+          className="select select-bordered select-sm"
+          aria-label="Action type"
+          name="locationType"
+          onChange={(e) => {
+            setLocationType(e.target.value);
+          }}
+          defaultValue={'decentralised'}
+        >
+          <option disabled>
+            Select location type
+          </option>
+          <option value="decentralised">Decentralised</option>
+          <option value="centralised">Centralised</option>
+        </select>
+      </div>
 
       {isDecentralisedForm ? (
-        <div>
-          <input
-            autoComplete="off"
-            className="form-control"
-            type="text"
-            name="locationBlockchain"
-            placeholder="Choose blockchain"
-          ></input>
+        <div className='mb-2'>
+          <label className="input-group input-group-sm">
+            <span>Blockchain</span>
+            <input
+              autoComplete="off"
+              name="locationBlockchain"
+              type="text"
+              placeholder="Ethereum"
+              className="input input-bordered input-sm"
+            />
+          </label>
         </div>
       ) : (
         <div></div>
       )}
-      <input
-        autoComplete="off"
-        className="form-control"
-        type="text"
-        name="locationApplication"
-        placeholder="Choose aplication"
-      ></input>
+      <label className="input-group input-group-sm mb-2">
+        <span>Application</span>
+        <input
+          autoComplete="off"
+          name="locationApplication"
+          type="text"
+          placeholder="Aave"
+          className="input input-bordered input-sm"
+        />
+      </label>
     </div>
   );
 }

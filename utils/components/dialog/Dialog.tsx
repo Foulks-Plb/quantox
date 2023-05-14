@@ -57,18 +57,25 @@ export default function Dialog() {
           >
             ✕
           </label>
-          <h3 className="text-lg font-bold">Add tokens to your wallet</h3>
+          <h3 className="text-lg font-bold mb-2">Add tokens to your wallet</h3>
           <form onSubmit={handleSubmit}>
-            <select
-              className="form-select"
-              aria-label="Action type"
-              name="actionType"
-              onChange={handleActionTypeChange}
-              value={actionType}
-            >
-              <option value="add">ADD</option>
-              <option value="swap">SWAP</option>
-            </select>
+            <div className="form-control mb-2">
+              <div className="input-group">
+                <select
+                  className="select select-bordered"
+                  aria-label="Action type"
+                  name="actionType"
+                  onChange={handleActionTypeChange}
+                  value={actionType}
+                >
+                  <option disabled>
+                    Selecting action type
+                  </option>
+                  <option value="add">ADD</option>
+                  <option value="swap">SWAP</option>
+                </select>
+              </div>
+            </div>
             {actionType === 'add' ? (
               <AddForm />
             ) : (
@@ -78,9 +85,11 @@ export default function Dialog() {
                 }}
               />
             )}
-            <button type="submit" className="btn btn-primary">
-              submit
-            </button>
+            <div className='flex justify-center'>
+              <button type="submit" className="btn btn-primary ">
+                submit
+              </button>
+            </div>
           </form>
         </div>
       </div>

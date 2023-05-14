@@ -9,7 +9,7 @@ const AutoComplete = ({ searchValue, options, setSearch }: any) => {
       (option: any) =>
         option.token.toLowerCase().indexOf(searchValue.toLowerCase()) > -1,
     );
-    filteredOptions = filteredOptions.slice(0, 3)
+    filteredOptions = filteredOptions.slice(0, 5)
     setFilteredOptions(filteredOptions);
   }, [searchValue]);
 

@@ -54,33 +54,36 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
     setSearchValue(event?.target?.value);
     if (event?.target?.value !== searchObject?.token && searchObject) {
       setSearchObject(undefined);
-      setTokenFrom(undefined)
+      setTokenFrom(undefined);
     }
   }
 
   function setOptionChoose(searchObject: any) {
     setSearchObject(searchObject);
     setSearchValue(searchObject.token);
-    setTokenFrom(searchObject)
+    setTokenFrom(searchObject);
   }
 
   return (
-    <div>
-      <input
-        autoComplete="off"
-        className="form-control"
-        type="text"
-        name="tokenFrom"
-        placeholder="token name from"
-        value={searchValue}
-        onChange={handleTokenSelection}
-        onFocus={() => {
-          setInSearch(true);
-        }}
-        onBlur={() => {
-          setTimeout(() => setInSearch(false), 400);
-        }}
-      ></input>
+    <div className="form-control">
+      <label className="input-group input-group-sm mb-2">
+        <span>Token from</span>
+        <input
+          autoComplete="off"
+          name="tokenFrom"
+          type="text"
+          placeholder="ethereum"
+          className="input input-bordered input-sm"
+          value={searchValue}
+          onChange={handleTokenSelection}
+          onFocus={() => {
+            setInSearch(true);
+          }}
+          onBlur={() => {
+            setTimeout(() => setInSearch(false), 400);
+          }}
+        />
+      </label>
       {inSearch && (
         <AutoComplete
           searchValue={searchValue}
@@ -90,79 +93,96 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
           }}
         />
       )}
-      <div className="">
+      <div className="flex">
         <div>{searchObject?.locationBlockchain}</div>
         <div className="px-2">{searchObject?.locationApp}</div>
         <div>{searchObject?.locationType}</div>
       </div>
-      <input
-        autoComplete="off"
-        className="form-control"
-        type="number"
-        step="any"
-        min="0"
-        placeholder="token amount from"
-        name="amountFrom"
-      ></input>
+      <label className="input-group input-group-sm mb-2">
+        <span>Amount from</span>
+        <input
+          autoComplete="off"
+          name="amountFrom"
+          type="text"
+          placeholder="0.1"
+          className="input input-bordered input-sm"
+        />
+      </label>
 
-      <div className="text-center text-primary">↓↓↓↓↓↓↓↓</div>
+      <div className="divider">↓↓↓↓↓↓↓↓</div>
 
-      <input
-        autoComplete="off"
-        className="form-control"
-        type="text"
-        name="tokenTo"
-        placeholder="token name to"
-        list="tokensTo"
-        onChange={(event) => tokenOnChange(event)}
-      ></input>
-      <datalist id="tokensTo">
-        {options.map((item: any, i: number) => (
-          <div key={i}>
-            <option value={item.api_symbol}>{item.name}</option>
-          </div>
-        ))}
-      </datalist>
-      <input
-        autoComplete="off"
-        className="form-control"
-        type="number"
-        step="any"
-        min="0"
-        placeholder="token amount to"
-        name="amountTo"
-      ></input>
-      <select
-        className="form-select"
-        aria-label="Choose environment"
-        name="locationType"
-        onChange={(e) => {
-          setLocationType(e.target.value);
-        }}
-      >
-        <option value="decentralised">Decentralised</option>
-        <option value="centralised">Centralised</option>
-      </select>
+      <label className="input-group input-group-sm mb-2">
+        <span>Token to</span>
+        <input
+          autoComplete="off"
+          name="tokenTo"
+          type="text"
+          placeholder="bitcoin"
+          className="input input-bordered input-sm"
+          onChange={(event) => tokenOnChange(event)}
+          list="tokensTo"
+        />
+        <datalist id="tokensTo">
+          {options.map((item: any, i: number) => (
+            <div key={i}>
+              <option value={item.api_symbol}>{item.name}</option>
+            </div>
+          ))}
+        </datalist>
+      </label>
+      <label className="input-group input-group-sm mb-2">
+        <span>Amount to</span>
+        <input
+          autoComplete="off"
+          name="amountTo"
+          type="text"
+          placeholder="0.01"
+          className="input input-bordered input-sm"
+        />
+      </label>
+      <div className="input-group input-group-sm mb-2">
+        <select
+          className="select select-bordered select-sm"
+          aria-label="Action type"
+          name="locationType"
+          onChange={(e) => {
+            setLocationType(e.target.value);
+          }}
+          defaultValue={'decentralised'}
+        >
+          <option disabled>
+            Select location type
+          </option>
+          <option value="decentralised">Decentralised</option>
+          <option value="centralised">Centralised</option>
+        </select>
+      </div>
       {isDecentralisedForm ? (
-        <div>
-          <input
-            autoComplete="off"
-            className="form-control"
-            type="text"
-            name="locationBlockchain"
-            placeholder="Choose blockchain"
-          ></input>
+        <div className="mb-2">
+          <label className="input-group input-group-sm">
+            <span>Blockchain</span>
+            <input
+              autoComplete="off"
+              name="locationBlockchain"
+              type="text"
+              placeholder="Bitcoin"
+              className="input input-bordered input-sm"
+            />
+          </label>
         </div>
       ) : (
         <div></div>
       )}
-      <input
-        autoComplete="off"
-        className="form-control"
-        type="text"
-        name="locationApplication"
-        placeholder="Choose aplication"
-      ></input>
+      <label className="input-group input-group-sm mb-2">
+        <span>Application</span>
+        <input
+          autoComplete="off"
+          name="locationApplication"
+          type="text"
+          placeholder="wallet"
+          className="input input-bordered input-sm"
+        />
+      </label>
     </div>
   );
 }

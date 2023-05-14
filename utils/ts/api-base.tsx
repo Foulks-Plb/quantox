@@ -20,14 +20,14 @@ export async function postCall(url: string, data: any) {
       }
 }
 
-export async function deleteId(url: string, token: Token) {
+export async function deleteToken(url: string, token: Token) {
   try {
       const data = {
         params : {
           ...token
         }
       };
-      const response = await axios.delete(url, data);
+      const response = await axios.put(url, data);
       return response.data;
     } catch (error) {
       console.error(error);

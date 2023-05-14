@@ -5,6 +5,7 @@ export type Wallet = {
 
 export type Token = {
   id?: string; // cuid
+  authorId? : string; // cuid
   token: string; // name
   price?: number;
   value: number;

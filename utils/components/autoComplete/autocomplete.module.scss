@@ -4,6 +4,7 @@
     background-color: var(--color-black);
     border-radius: 8px;
     overflow: hidden;
+    z-index: 1;
 
     .tooltiptext {
         color: #fff;
