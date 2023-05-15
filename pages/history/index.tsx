@@ -1,26 +1,35 @@
 import { useEffect, useState } from 'react';
-import { getCall } from '../../utils/ts/api-base';
+import { getCallPagination } from '@/utils/ts/api-base';
+import { IPagination } from '@/utils/types/backend';
+import Pagination from '@/utils/components/pagination/Pagination';
 
 export default function Page() {
-  
   const [isMounted, setIsMounted] = useState(false);
-  const [history, setHistory] = useState<any[]>([]);
+  const [history, setHistory] = useState<IPagination>();
 
   useEffect(() => {
     if (isMounted) {
-      getHistory();
+      getHistory(1);
     } else {
       setIsMounted(true);
     }
   }, [isMounted]);
 
-  async function getHistory() {
-    const history = await getCall('/api/history');
+  async function getHistory(skip: number) {
+    const history: IPagination = await getCallPagination('/api/history', {
+      take: 5,
+      skip: skip,
+    });
     setHistory(history);
   }
 
+  function selectPage(page: number) {
+    getHistory(page);
+  }
+
   return (
-    <div>
+    <>
+    {history ? <div>
       <table className="table table-dark">
         <thead>
           <tr>
@@ -34,7 +43,7 @@ export default function Page() {
           </tr>
         </thead>
         <tbody>
-          {history.map(function (item, i) {
+          {history?.data?.map(function (item, i) {
             return (
               <tr key={i}>
                 <th scope="row">{i}</th>
@@ -61,6 +70,8 @@ export default function Page() {
           })}
         </tbody>
       </table>
-    </div>
+      <Pagination take={history?.take || 5} page={history?.skip || 1} count={history?.count || 0} selectPageEvent={(e: any)=>selectPage(e)}/>
+    </div> : <div>no data</div>}
+    </>
   );
 }

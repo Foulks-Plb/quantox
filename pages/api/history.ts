@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../lib/prisma';
 import { getSession } from 'next-auth/react';
+import { IPagination } from '@/utils/types/backend';
 
 export default function handler(
   req: NextApiRequest,
@@ -15,13 +16,28 @@ export default function handler(
 
 async function getHistory(req: NextApiRequest) {
   const session = await getSession({ req })
-  const history = await prisma.history.findMany({
-    where: {
-      authorId: session?.user.id
-    },
-    orderBy: {
-      processAt: 'desc'
-    }
-  })
+  const pagination: IPagination = {
+    take: Number(req.query.take),
+    skip: Number(req.query.skip),
+  };
+
+  const get = await prisma.$transaction([
+    prisma.history.count({
+      where: {
+        authorId: session?.user.id
+      },
+    }),
+    prisma.history.findMany({
+      take: pagination.take,
+      skip: (pagination.skip - 1) * pagination.take,
+      where: {
+        authorId: session?.user.id
+      },
+      orderBy: {
+        processAt: 'desc'
+      }
+    })
+  ])
+  const history: IPagination = { count: get[0], take: pagination.take, skip: pagination.skip, data: get[1] };
   return history
 }

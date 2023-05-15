@@ -1,10 +1,21 @@
 import axios from "axios";
 import { Token } from "../types/wallet";
+import { IPagination } from "../types/backend";
 
 export async function getCall(url: string) {
   console.log('call');
     try {
         const response = await axios.get(url);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+}
+
+export async function getCallPagination(url: string, pagination: IPagination) {
+  console.log('call pagination');
+    try {
+        const response = await axios.get(url, {params: pagination});
         return response.data;
       } catch (error) {
         console.error(error);
