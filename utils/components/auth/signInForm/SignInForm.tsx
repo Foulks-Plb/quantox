@@ -13,22 +13,47 @@ export default function SignInForm() {
   }
 
   return (
+    <div className='grid h-screen place-items-center'>
     <div className={Styles.formSignIn}>
       <form onSubmit={sign}>
-        <div className="form-outline mb-4">
-          <label className="form-label">Email address</label>
-          <input type="email" name="email" className="form-control" />
-        </div>
-        <div className="form-outline mb-4">
-          <label className="form-label" htmlFor="form2Example2">
-            Password
+
+        <div className="form-control mb-2">
+          <label className="label">
+            <span className="label-text">Your Email</span>
           </label>
-          <input type="password" name="password" className="form-control" />
+          <label className="input-group">
+            <span>Email</span>
+            <input
+              type="email"
+              placeholder="pierre@gmail.com"
+              className="input input-bordered w-full"
+              name="email"
+            />
+          </label>
         </div>
-        <button type="submit" className="btn btn-primary btn-block mb-4">
+        <div className="form-control mb-4">
+          <label className="label">
+            <span className="label-text">Your Password</span>
+          </label>
+          <label className="input-group">
+            <span>Password</span>
+            <input
+              type="password"
+              className="input input-bordered w-full"
+              name="password"
+              placeholder="*******"
+            />
+          </label>
+        </div>
+
+        <div className='flex justify-center'>
+        <button type="submit" className="btn btn-primary">
           Sign in
         </button>
+        </div>
+        
       </form>
+    </div>
     </div>
   );
 }
