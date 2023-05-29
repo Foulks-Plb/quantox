@@ -1,6 +1,7 @@
 export type Wallet = {
   total: number;
   tokens: Token[];
+  wallet?: any;
 };
 
 export type Token = {

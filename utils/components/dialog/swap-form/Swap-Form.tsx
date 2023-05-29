@@ -35,7 +35,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
       setTimeoutId(
         setTimeout(() => {
           getResultsWithName(value).then((tk) => {
-            setOptions(tk.coins.slice(0, 5));
+            setOptions(tk?.coins?.slice(0, 5));
           });
         }, 2000),
       );
@@ -74,6 +74,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
           type="text"
           placeholder="ethereum"
           className="input input-bordered input-sm"
+          required
           value={searchValue}
           onChange={handleTokenSelection}
           onFocus={() => {
@@ -106,6 +107,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
           type="text"
           placeholder="0.1"
           className="input input-bordered input-sm"
+          required
         />
       </label>
 
@@ -121,9 +123,10 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
           className="input input-bordered input-sm"
           onChange={(event) => tokenOnChange(event)}
           list="tokensTo"
+          required
         />
         <datalist id="tokensTo">
-          {options.map((item: any, i: number) => (
+          {options?.map((item: any, i: number) => (
             <div key={i}>
               <option value={item.api_symbol}>{item.name}</option>
             </div>
@@ -138,6 +141,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
           type="text"
           placeholder="0.01"
           className="input input-bordered input-sm"
+          required
         />
       </label>
       <div className="input-group input-group-sm mb-2">
@@ -167,6 +171,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
               type="text"
               placeholder="Bitcoin"
               className="input input-bordered input-sm"
+              required
             />
           </label>
         </div>
@@ -181,6 +186,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
           type="text"
           placeholder="wallet"
           className="input input-bordered input-sm"
+          required
         />
       </label>
     </div>

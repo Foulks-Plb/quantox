@@ -5,11 +5,11 @@ const AutoComplete = ({ searchValue, options, setSearch }: any) => {
   const [filteredOptions, setFilteredOptions] = useState([]);
 
   useEffect(() => {
-    let filteredOptions = options.filter(
+    let filteredOptions = options?.filter(
       (option: any) =>
         option.token.toLowerCase().indexOf(searchValue.toLowerCase()) > -1,
     );
-    filteredOptions = filteredOptions.slice(0, 5)
+    filteredOptions = filteredOptions?.slice(0, 5)
     setFilteredOptions(filteredOptions);
   }, [searchValue]);
 
@@ -20,7 +20,7 @@ const AutoComplete = ({ searchValue, options, setSearch }: any) => {
   return (
     <div>
       <div className={styles.tooltip}>
-        {filteredOptions.map((option: any, i) => (
+        {filteredOptions?.map((option: any, i) => (
           <div
             className={styles.tooltiptext}
             key={i}

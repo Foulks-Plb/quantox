@@ -1,8 +1,6 @@
-import { legacy_createStore as createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import { get } from 'http';
 import { getCall } from '../ts/api-base';
 import { StoreWalletProps, Wallet } from '../types/wallet';
-import { getSession } from 'next-auth/react';
 
 const initialStateWallet: StoreWalletProps = {
   wallet: null,
@@ -21,7 +19,7 @@ const fetchWalletSuccess = (wallet: Wallet) => ({ type: FETCH_WALLET_SUCCESS, pa
 const fetchWalletFailure = (error: any) => ({ type: FETCH_WALLET_FAILURE, payload: error });
 
 // Reducer
-const reducer = (state = initialStateWallet, action: any) => {
+const reducerWallet = (state = initialStateWallet, action: any) => {
   switch (action.type) {
     case FETCH_WALLET_START:
       return { ...state, isLoading: true };
@@ -38,7 +36,8 @@ const reducer = (state = initialStateWallet, action: any) => {
 export const getWallet = (force?: boolean) => async (dispatch: any, getState: any) => {
   try {
     dispatch(fetchWalletStart());
-    const { wallet } = getState();
+    const { walletReducer } = getState();
+    const wallet = walletReducer.wallet;
     if (wallet && !force) {
       return wallet;
     }
@@ -51,6 +50,4 @@ export const getWallet = (force?: boolean) => async (dispatch: any, getState: an
   }
 };
 
-const store = createStore(reducer, applyMiddleware(thunk));
-
-export default store;
+export default reducerWallet;

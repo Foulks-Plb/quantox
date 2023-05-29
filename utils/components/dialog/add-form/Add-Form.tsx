@@ -19,7 +19,7 @@ export default function AddForm() {
       setTimeoutId(
         setTimeout(() => {
           getResultsWithName(value).then((tk) => {
-            setOptions(tk.coins.slice(0, 5));
+            setOptions(tk?.coins?.slice(0, 5));
           });
         }, 2000),
       );
@@ -46,9 +46,10 @@ export default function AddForm() {
           className="input input-bordered input-sm"
           onChange={(event) => tokenOnChange(event)}
           list="tokensTo"
+          required
         />
         <datalist id="tokensTo">
-          {options.map((item: any, i: number) => (
+          {options?.map((item: any, i: number) => (
             <div key={i}>
               <option value={item.api_symbol}>{item.name}</option>
             </div>
@@ -63,6 +64,7 @@ export default function AddForm() {
           type="text"
           placeholder="0.1"
           className="input input-bordered input-sm"
+          required 
         />
       </label>
       <div className="input-group input-group-sm mb-2">
@@ -93,6 +95,7 @@ export default function AddForm() {
               type="text"
               placeholder="Ethereum"
               className="input input-bordered input-sm"
+              required
             />
           </label>
         </div>
@@ -107,6 +110,7 @@ export default function AddForm() {
           type="text"
           placeholder="Aave"
           className="input input-bordered input-sm"
+          required
         />
       </label>
     </div>
