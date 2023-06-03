@@ -7,6 +7,7 @@ export default function Document() {
         <title>Quantox</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Track your portfolio" />
+        <meta name="robots" content="noindex" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <body>

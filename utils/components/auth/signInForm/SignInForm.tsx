@@ -31,7 +31,7 @@ export default function SignInForm() {
             />
           </label>
         </div>
-        <div className="form-control mb-4">
+        <div className="form-control mb-5">
           <label className="label">
             <span className="label-text">Your Password</span>
           </label>
