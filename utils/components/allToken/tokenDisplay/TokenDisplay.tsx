@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import { setToast } from '@/utils/store/toast';
 import { Token } from '@/utils/types/wallet';
 
-function TokenDisplay({ token, setToast}: { token: Token, setToast: (message: string, color: string) => void }) {
+function TokenDisplay({ token, setToast}: { token: Token, setToast?: (message: string, color: string) => void }) {
   async function  deleteT() {
     const response = await deleteToken('/api/deleteToken', token);
-    if (response?.status === 200) {
-      setToast(response.message, 'alert-success');
-    } else {
-      setToast(response?.message || 'Error', 'bg-red-500');
+    if (setToast) {
+      if (response?.status === 200) {
+        setToast(response.message, 'alert-success');
+      } else {
+        setToast(response?.message || 'Error', 'bg-red-500');
+      }
     }
   }
 
