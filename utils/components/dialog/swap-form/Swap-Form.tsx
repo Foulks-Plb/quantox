@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import AutoComplete from '../../autoComplete/AutoComplete';
 import { storeReducer } from '@/utils/types/store';
-import { error } from 'console';
 
 function SwapForm({ wallet, getWallet, setTokenFromEvent }: { wallet?: Wallet, getWallet?: (force?: boolean) => void, setTokenFromEvent: (searchObject: any) => void }) {
   const [isMounted, setIsMounted] = useState(false);

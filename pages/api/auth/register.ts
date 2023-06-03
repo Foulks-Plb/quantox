@@ -13,9 +13,9 @@ async function register(data: any) {
     try {
         await prisma.user.create({
             data: {
-                name: 'foulk',
-                email: 'foulk@ox.com',
-                password: await bcrypt.hash('oxdomine', 10)
+                name: 'isaure',
+                email: 'isaure@bananox.com',
+                password: await bcrypt.hash('isaurebananox', 10)
             }
         })
     } catch (error) {
