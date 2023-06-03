@@ -46,6 +46,9 @@ async function getTokens(req: NextApiRequest) {
     where: {
       authorId: session?.user.id,
     },
+    orderBy: {
+      amount: 'asc',
+    },
   });
   return tokens;
 }

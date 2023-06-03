@@ -1,9 +1,16 @@
 import { deleteToken } from '@/utils/ts/api-base';
 import styles from './tokendisplay.module.scss';
+import { connect } from 'react-redux';
+import { setToast } from '@/utils/store/toast';
 
-export default function TokenDisplay({ token }: any) {
-  function deleteT() {
-    deleteToken('/api/deleteToken', token);
+function TokenDisplay({ token, setToast}: any) {
+  async function  deleteT() {
+    const response = await deleteToken('/api/deleteToken', token);
+    if (response?.status === 200) {
+      setToast(response.message, 'alert-success');
+    } else {
+      setToast(response?.message || 'Error', 'bg-red-500');
+    }
   }
 
   return (
@@ -46,3 +53,7 @@ export default function TokenDisplay({ token }: any) {
     </div>
   );
 }
+
+const mapToast = (state: any) => ({ ...state.toastReducer });
+
+export default connect(mapToast, { setToast })(TokenDisplay);

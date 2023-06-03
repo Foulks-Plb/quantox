@@ -5,6 +5,8 @@ export interface pieChartProps {
     type: 'donut' | 'pie';
     width: string
     height: string
+    legendDisplay: boolean
+    legendPosition?: string
 }
 
 export interface OptionPieChart {
@@ -12,4 +14,5 @@ export interface OptionPieChart {
     colors: string[];
     stroke?: any;
     legend?: any
+    tooltip?: any
 }

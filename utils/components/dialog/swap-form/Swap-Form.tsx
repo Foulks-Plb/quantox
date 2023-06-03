@@ -1,17 +1,21 @@
 import { getWallet } from '@/utils/store/wallet';
 import { getResultsWithName } from '@/utils/ts/api-coingecko';
-import { StoreWalletProps, Token } from '@/utils/types/wallet';
+import { Token, Wallet } from '@/utils/types/wallet';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import AutoComplete from '../../autoComplete/AutoComplete';
+import { storeReducer } from '@/utils/types/store';
+import { error } from 'console';
 
-function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
+function SwapForm({ wallet, getWallet, setTokenFromEvent }: { wallet?: Wallet, getWallet?: (force?: boolean) => void, setTokenFromEvent: (searchObject: any) => void }) {
   const [isMounted, setIsMounted] = useState(false);
   const [isDecentralisedForm, setIsDecentralisedForm] = useState(true);
 
   const [searchValue, setSearchValue] = useState<string>('');
   const [inSearch, setInSearch] = useState(false);
   const [searchObject, setSearchObject] = useState<Token>();
+  const [amountFrom, setAmountFrom] = useState<number>(0);
+  const [errorAmountFrom, setErrorAmountFrom] = useState<string>('');
 
   const [options, setOptions] = useState([]);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
@@ -54,19 +58,38 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
     setSearchValue(event?.target?.value);
     if (event?.target?.value !== searchObject?.token && searchObject) {
       setSearchObject(undefined);
-      setTokenFrom(undefined);
+      setTokenFromEvent(undefined);
+      verifyAmountFrom(amountFrom, undefined);
     }
   }
 
   function setOptionChoose(searchObject: any) {
     setSearchObject(searchObject);
     setSearchValue(searchObject.token);
-    setTokenFrom(searchObject);
+    setTokenFromEvent(searchObject);
+    verifyAmountFrom(amountFrom, searchObject?.amount);
+  }
+
+  function  onChangeAmountFrom(event: any) {
+    setAmountFrom(Number(event?.target?.value));
+    verifyAmountFrom(Number(event?.target?.value), searchObject?.amount)
+  }
+
+  function verifyAmountFrom(amountSet: number, amountTotal?: number) {
+    if (amountTotal) {
+      if (amountSet > amountTotal) {
+        setErrorAmountFrom('The value is greater than your amount ' + amountTotal);
+      } else {
+        setErrorAmountFrom('');
+      }
+    } else {
+      setErrorAmountFrom('First select a token');
+    }
   }
 
   return (
     <div className="form-control">
-      <label className="input-group input-group-sm mb-2">
+      <label className="input-group input-group-sm mt-2">
         <span>Token from</span>
         <input
           autoComplete="off"
@@ -99,21 +122,24 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
         <div className="px-2">{searchObject?.locationApp}</div>
         <div>{searchObject?.locationType}</div>
       </div>
-      <label className="input-group input-group-sm mb-2">
+      <label className="input-group input-group-sm mt-2">
         <span>Amount from</span>
         <input
+          onChange={onChangeAmountFrom}
+          type="number"
+          step="any"
+          min={0}
           autoComplete="off"
           name="amountFrom"
-          type="text"
           placeholder="0.1"
           className="input input-bordered input-sm"
           required
         />
       </label>
-
+      {errorAmountFrom && <div className='text-red-600'>{errorAmountFrom}</div>}
       <div className="divider">↓↓↓↓↓↓↓↓</div>
 
-      <label className="input-group input-group-sm mb-2">
+      <label className="input-group input-group-sm">
         <span>Token to</span>
         <input
           autoComplete="off"
@@ -133,7 +159,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
           ))}
         </datalist>
       </label>
-      <label className="input-group input-group-sm mb-2">
+      <label className="input-group input-group-sm mt-2">
         <span>Amount to</span>
         <input
           autoComplete="off"
@@ -144,7 +170,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
           required
         />
       </label>
-      <div className="input-group input-group-sm mb-2">
+      <div className="input-group input-group-sm mt-2">
         <select
           className="select select-bordered select-sm"
           aria-label="Action type"
@@ -162,7 +188,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
         </select>
       </div>
       {isDecentralisedForm ? (
-        <div className="mb-2">
+        <div className="mt-2">
           <label className="input-group input-group-sm">
             <span>Blockchain</span>
             <input
@@ -178,7 +204,7 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
       ) : (
         <div></div>
       )}
-      <label className="input-group input-group-sm mb-2">
+      <label className="input-group input-group-sm mt-2">
         <span>Application</span>
         <input
           autoComplete="off"
@@ -193,10 +219,6 @@ function SwapForm({ wallet, isLoading, error, getWallet, setTokenFrom }: any) {
   );
 }
 
-const mapWallet = (state: StoreWalletProps) => ({
-  wallet: state.wallet,
-  isLoading: state.isLoading,
-  error: state.error,
-});
+const mapWallet = (state: storeReducer) => ({ ...state.walletReducer });
 
 export default connect(mapWallet, { getWallet })(SwapForm);

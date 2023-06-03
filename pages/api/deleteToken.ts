@@ -9,12 +9,10 @@ export default async function handler(
     const token: any = req.body.params;
     try {
         await deleteToken(token);
-
-        res.status(200).json({ message: 'Token has been deleted.' });
+        return res.status(200).json({ message: 'Token has been deleted', status: 200 });
     } catch (error) {
-        res.status(500).json({ message: error });
+        return res.status(500).json({ message: error, status: 500 });
     }
-
 }
 
 async function deleteToken(token: Token) {

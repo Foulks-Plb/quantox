@@ -4,6 +4,10 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        <title>Quantox</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Track your portfolio" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <body>
         <Main />

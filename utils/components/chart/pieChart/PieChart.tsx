@@ -2,9 +2,19 @@ import { OptionPieChart, pieChartProps } from '@/utils/types/chart';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import styles from './piechart.module.scss';
+import { fixed2 } from '@/utils/ts/pipe';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export default function PieChart({ title, series, options, type, width, height }: pieChartProps) {
+export default function PieChart({
+  title,
+  series,
+  options,
+  type,
+  width,
+  height,
+  legendDisplay,
+  legendPosition,
+}: pieChartProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [seriesSort, setSeriesSort] = useState<number[]>();
   const [optionsSort, setOptionsSort] = useState<OptionPieChart>();
@@ -33,7 +43,19 @@ export default function PieChart({ title, series, options, type, width, height }
     const resultLabels: string[] = Object.keys(aggregatedData);
 
     setSeriesSort(resultSeries);
-    setOptionsSort({ labels: resultLabels, colors: options.colors, stroke: { show: false }, legend: { position: 'bottom'}});
+    setOptionsSort({
+      labels: resultLabels,
+      colors: options.colors,
+      stroke: { show: false },
+      legend: { show: legendDisplay, position: legendPosition },
+      tooltip: {
+        y: {
+          formatter: function (value: number) {
+            return fixed2(value) + ' $';
+          },
+        },
+      },
+    });
   }
 
   if (!seriesSort || !optionsSort) return <div></div>;
@@ -41,7 +63,7 @@ export default function PieChart({ title, series, options, type, width, height }
     <div className={styles.pieChart}>
       <div className={styles.pieTitle}>{title}</div>
       {seriesSort.length !== 0 ? (
-        <div className=' '>
+        <div>
           <Chart
             series={seriesSort}
             options={optionsSort}

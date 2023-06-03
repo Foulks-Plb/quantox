@@ -101,6 +101,7 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
             type="pie"
             width="100%"
             height="250px"
+            legendDisplay={false}
           />
           <PieChart
             title="Application"
@@ -109,6 +110,7 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
             type="pie"
             width="100%"
             height="250px"
+            legendDisplay={false}
           />
           <PieChart
             title="Location type"
@@ -117,6 +119,7 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
             type="pie"
             width="100%"
             height="250px"
+            legendDisplay={false}
           />
         </div>
       </div>
@@ -129,6 +132,8 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
             type="donut"
             width="100%"
             height="300px"
+            legendPosition='left'
+            legendDisplay={true}
           />
         </div>
         <AllToken tokens={wallet?.tokens} />

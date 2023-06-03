@@ -6,7 +6,12 @@ export default async function handler(
   res: NextApiResponse<any>,
 ) {
   if (req.method === 'POST') {
-    createHistory(req.body)
+    try {
+      createHistory(req.body);
+      return res.status(200).json({ message: 'Action is saved', status: 200 });
+    } catch (error) {
+      return res.status(500).json({ message: error, status: 500 });
+    }
   }
 }
 

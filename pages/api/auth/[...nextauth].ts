@@ -6,8 +6,6 @@ import prisma from '../../../lib/prisma';
 export default NextAuth({
     providers: [
         CredentialsProvider({
-            id: "domain-login",
-            name: "Domain Account",
             credentials: {
                 email: { label: 'Email', type: 'text' },
                 password: { label: 'Password', type: 'password' },

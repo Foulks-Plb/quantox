@@ -8,6 +8,7 @@ import { LowerCTrim } from '@/utils/ts/pipe';
 import { Token } from '@/utils/types/wallet';
 import { useSession } from 'next-auth/react';
 import { connect } from 'react-redux';
+import { storeReducer } from '@/utils/types/store';
 
 function Dialog({ setToast }: any) {
   const { data: session } = useSession();
@@ -26,60 +27,98 @@ function Dialog({ setToast }: any) {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
+  
+    if (
+      formBaseIsValid(event) &&
+      formSwapIsValid(event) &&
+      formDecentralisedIsValid(event) &&
+      formCentralisedIsValid(event) &&
+      formSwapAmountIsValid(event)
+    ) {
+      const response = await postCall('/api/addHistory', {
+        authorId: session?.user.id,
+        action: LowerCTrim(event.target.actionType?.value),
+        from: {
+          token: tokenFromObject?.token || '',
+          amount: parseFloat(event.target.amountFrom?.value) || 0,
+          locationBlockchain: tokenFromObject?.locationBlockchain || '',
+          locationApp: tokenFromObject?.locationApp || '',
+          locationType: tokenFromObject?.locationType || '',
+        },
+        to: {
+          token: event.target.tokenTo?.value || '',
+          amount: parseFloat(event.target.amountTo?.value) || 0,
+          locationBlockchain: LowerCTrim(
+            event.target.locationBlockchain?.value || '',
+          ),
+          locationApp:
+            LowerCTrim(event.target.locationApplication?.value) || '',
+          locationType: LowerCTrim(event.target.locationType?.value) || '',
+        },
+        processAt: new Date(),
+      });
 
-    if (formBaseIsValid(event) && formSwapIsValid(event) && formDecentralisedIsValid(event) && formCentralisedIsValid(event)) {
-      try {
-        await postCall('/api/addHistory', {
-          authorId: session?.user.id,
-          action: LowerCTrim(event.target.actionType?.value),
-          from: {
-            token: tokenFromObject?.token || '',
-            amount: parseFloat(event.target.amountFrom?.value) || 0,
-            locationBlockchain: tokenFromObject?.locationBlockchain || '',
-            locationApp: tokenFromObject?.locationApp || '',
-            locationType: tokenFromObject?.locationType || '',
-          },
-          to: {
-            token: event.target.tokenTo?.value || '',
-            amount: parseFloat(event.target.amountTo?.value) || 0,
-            locationBlockchain: LowerCTrim(
-              event.target.locationBlockchain?.value || '',
-            ),
-            locationApp:
-              LowerCTrim(event.target.locationApplication?.value) || '',
-            locationType: LowerCTrim(event.target.locationType?.value) || '',
-          },
-          processAt: new Date(),
-        });
+      if (response?.status === 200) {
         setIsOpen(false);
-        setToast(event.target.value + ' action saved', 'type');
-      } catch (error: any) {
-        console.error(error.message);
+        setToast(response.message, 'alert-success');
+      } else {
+        setToast(response?.message || 'Error', 'bg-red-500');
       }
+
     } else {
-      alert('Please fill all the fields');
-    }  
+      setToast('Please verify all fields', 'bg-red-500');
+    }
   };
 
   function formBaseIsValid(event: any): boolean {
-    return (session?.user.id && event.target.actionType?.value && event.target.tokenTo?.value && event.target.amountTo?.value)
+    return (
+      session?.user.id &&
+      event.target.actionType?.value &&
+      event.target.tokenTo?.value &&
+      event.target.amountTo?.value
+    );
   }
 
   function formSwapIsValid(event: any): boolean {
-    return (event.target.actionType?.value === 'swap' && tokenFromObject?.token && tokenFromObject?.locationType && event.target.amountFrom?.value) || event.target.actionType?.value !== 'swap';
+    return (
+      (event.target.actionType?.value === 'swap' &&
+        tokenFromObject?.token &&
+        tokenFromObject?.locationType &&
+        event.target.amountFrom?.value) ||
+      event.target.actionType?.value !== 'swap'
+    );
+  }
+
+  function formSwapAmountIsValid(event: any): boolean {
+    return (((tokenFromObject?.amount || 0) >= event.target.amountFrom?.value) ||event.target.actionType?.value !== 'swap');
   }
 
   function formDecentralisedIsValid(event: any): boolean {
-    return (event.target.locationType?.value === 'decentralised' && event.target.locationBlockchain?.value && event.target.locationApplication?.value) || event.target.locationType?.value !== 'decentralised';
+    return (
+      (event.target.locationType?.value === 'decentralised' &&
+        event.target.locationBlockchain?.value &&
+        event.target.locationApplication?.value) ||
+      event.target.locationType?.value !== 'decentralised'
+    );
   }
 
   function formCentralisedIsValid(event: any): boolean {
-    return (event.target.locationType?.value === 'centralised' && event.target.locationApplication?.value) || event.target.locationType?.value !== 'centralised'
+    return (
+      (event.target.locationType?.value === 'centralised' &&
+        event.target.locationApplication?.value) ||
+      event.target.locationType?.value !== 'centralised'
+    );
   }
 
   return (
     <div>
-      <input type="checkbox" id="addToken" className="modal-toggle" checked={isOpen} onChange={(e)=>setIsOpen(e.target.checked)}/>
+      <input
+        type="checkbox"
+        id="addToken"
+        className="modal-toggle"
+        checked={isOpen}
+        onChange={(e) => setIsOpen(e.target.checked)}
+      />
       <div className="modal">
         <div className="modal-box relative">
           <label
@@ -109,7 +148,7 @@ function Dialog({ setToast }: any) {
               <AddForm />
             ) : (
               <SwapForm
-                setTokenFrom={(e: any) => {
+                setTokenFromEvent={(e: any) => {
                   setTokenFrom(e);
                 }}
               />
@@ -126,6 +165,6 @@ function Dialog({ setToast }: any) {
   );
 }
 
-const mapToast = (state: any) => ({ ...state.toastReducer });
+const mapToast = (state: storeReducer) => ({ ...state.toastReducer });
 
 export default connect(mapToast, { setToast })(Dialog);
