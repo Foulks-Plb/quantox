@@ -22,3 +22,10 @@ export interface StoreWalletProps {
   error?: string | null;
   getWallet?: (force?: boolean) => void;
 }
+
+export interface StorePoolProps {
+  pool: any;
+  isLoading?: boolean;
+  error?: string | null;
+  getPool?: (force?: boolean) => void;
+}

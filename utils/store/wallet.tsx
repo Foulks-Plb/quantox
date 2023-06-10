@@ -1,4 +1,3 @@
-import { get } from 'http';
 import { getCall } from '../ts/api-base';
 import { StoreWalletProps, Wallet } from '../types/wallet';
 

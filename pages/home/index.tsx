@@ -9,6 +9,7 @@ import InfoCard from '@/utils/components/card/infoCard/InfoCard';
 import ReloadCard from '@/utils/components/card/reloadCard/ReloadCard';
 import AllToken from '@/utils/components/allToken/AllToken';
 import { colorsPieChart } from '@/utils/constant';
+import { storeReducer } from '@/utils/types/store';
 
 const Page = ({ wallet, getWallet }: StoreWalletProps) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -142,6 +143,6 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
   );
 };
 
-const mapWallet = (state: any) => ({ ...state.walletReducer });
+const mapWallet = (state: storeReducer) => ({ ...state.walletReducer });
 
 export default connect(mapWallet, { getWallet })(Page);

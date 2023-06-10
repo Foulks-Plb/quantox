@@ -19,6 +19,7 @@ model User {
   createdAt     DateTime     @default(now()) @map(name: "created_at")
   history       History[]
   tokens        Token[]
+  pools         Pool[]
   @@map(name: "users")
 }
 
@@ -32,6 +33,22 @@ model Token {
   locationApp           String
   locationType          String
   @@unique([locationBlockchain, locationApp, locationType, token, authorId])
+}
+
+model Pool {
+  id                    String     @default(cuid()) @id
+  author                User?      @relation(fields: [authorId], references: [id])
+  authorId              String?
+  tokenA                String
+  amountA               Float 
+  priceA                Float  
+  tokenB                String
+  amountB               Float
+  priceB                Float  
+  locationBlockchain    String?
+  locationApp           String
+  locationType          String
+  @@unique([locationBlockchain, locationApp, locationType, tokenA, tokenB, authorId])
 }
 
 model History {

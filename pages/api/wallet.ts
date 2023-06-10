@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
-import { getPricesCoingecko } from '@/utils/ts/api-coingecko';
+import { getPrices } from '@/utils/ts/api-coingecko';
 import { Wallet, Token } from '@/utils/types/wallet';
 import { fixed2 } from '@/utils/ts/pipe';
 import { getSession } from 'next-auth/react';
@@ -53,7 +53,4 @@ async function getTokens(req: NextApiRequest) {
   return tokens;
 }
 
-async function getPrices(tokensArray: any[]) {
-  if (tokensArray.length === 0) return {};
-  return await getPricesCoingecko(tokensArray.join(','));
-}
+

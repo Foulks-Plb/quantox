@@ -46,6 +46,9 @@ const SideMenu = ({ children }: { children: React.ReactNode }) => {
             <li>
               <Link href="/history">History</Link>
             </li>
+            <li>
+              <Link href="/pool">Pool</Link>
+            </li>
             <div className="absolute bottom-0 inset-x-0 p-4">
               <label htmlFor="addToken" className="btn">
                 Add token
