@@ -17,6 +17,7 @@ export type Token = {
 };
 
 export type IWalletPool = {
+  total: number;
   pools: IPool[];
 };
 

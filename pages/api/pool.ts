@@ -21,6 +21,7 @@ export default function handler(
       }
 
       listOfTokens = [...tokenSet];
+      let total = 0;
       getPrices(listOfTokens).then((prices: any) => {
         const pools: IPool[] = data.map((pool: IPool) => {
 
@@ -30,7 +31,7 @@ export default function handler(
           const { impermanentLoss, amountNowA, amountNowB } = impermLoss(pool.amountA, pool.amountB, pool.priceA, pool.priceB, priceNowA, priceNowB);
           const valueNowA = priceNowA * amountNowA;
           const valueNowB = priceNowB * amountNowB;
-
+          total += valueNowA + valueNowB;
           return {
             ...pool,
             amountNowA: fixed2(amountNowA),
@@ -43,6 +44,7 @@ export default function handler(
           };
         });
         res.status(200).json({
+          total: fixed2(total),
           pools: [...pools],
         });
       });

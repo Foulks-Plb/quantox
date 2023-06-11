@@ -33,8 +33,8 @@ function TokenDisplay({ token, setToast}: { token: Token, setToast?: (message: s
         </div>
       </div>
       <div className={styles.tokenBody}>
-        <div className={styles.tokenCurrency}>$</div>
-        <div>{token.value}</div>
+        <strong className={styles.tokenCurrency}>$</strong>
+        <strong>{token.value}</strong>
       </div>
       <div className={styles.boutonDelete}>
         <div className="dropdown dropdown-end">

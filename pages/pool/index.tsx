@@ -10,7 +10,7 @@ import ReloadCard from '@/utils/components/card/reloadCard/ReloadCard';
 import AllToken from '@/utils/components/allToken/AllToken';
 import { colorsPieChart } from '@/utils/constant';
 import { storeReducer } from '@/utils/types/store';
-import { fixed2 } from '@/utils/ts/pipe';
+import PoolDisplay from '@/utils/components/allPool/poolDisplay/PoolDisplay';
 
 const Page = ({ pool, getPool }: StorePoolProps) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -28,32 +28,18 @@ const Page = ({ pool, getPool }: StorePoolProps) => {
   }, [pool]);
 
   return (
-    <div>
-      <div>liquidity pool</div>
-
+    <div className='padding-l'>
+      <InfoCard title="Total pool" value={pool?.total} />
+      <div>All pools</div>
+      <div className={styles.allPool}>
       {pool?.pools?.map(function (pool: IPool, i: number) {
         return (
-          <div key={i} className="stats">
-            <div className="stat place-items-center">
-              <div className="stat-title">{pool.tokenA}</div>
-              <div className="stat-value">{pool.valueNowA}$</div>
-              <div className="stat-desc">{pool.amountNowA}</div>
-            </div>
-
-            <div className="stat place-items-center">
-              <div className="stat-title">Total</div>
-              <div className="stat-value text-secondary">{fixed2((pool?.valueNowA || 0) + (pool?.valueNowB || 0))}$</div>
-              <div className="stat-desc text-secondary">-{pool.impermanentLoss}%</div>
-            </div>
-
-            <div className="stat place-items-center">
-              <div className="stat-title">{pool.tokenB}</div>
-              <div className="stat-value">{pool.valueNowB}$</div>
-              <div className="stat-desc">{pool.amountNowB}</div>
-            </div>
+          <div key={i} >
+            <PoolDisplay pool={pool} />
           </div>
         );
       })}
+      </div>
     </div>
   );
 };

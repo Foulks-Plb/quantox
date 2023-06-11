@@ -203,7 +203,7 @@ function SwapForm({ wallet, getWallet, setTokenFromEvent }: { wallet?: Wallet, g
       ) : (
         <div></div>
       )}
-      <label className="input-group input-group-sm mt-2">
+      <label className="input-group input-group-sm mt-2 mb-2">
         <span>Application</span>
         <input
           autoComplete="off"

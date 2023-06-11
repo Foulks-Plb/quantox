@@ -2,7 +2,7 @@
     background-color: var(--color-green1);
     width: 200px;
     height: 180px;
-    border-radius: var(--border-radius-x);
+    border-radius: var(--size-x);
     padding: 25px;
     margin: 10px;
 
@@ -20,7 +20,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: var(--border-radius-s);
+            border-radius: var(--size-s);
             font-weight: 700;
         }
 

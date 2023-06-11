@@ -14,14 +14,22 @@
   --color-purple1: #A3A7FC;
   --color-purple2: #7980EF;
 
-  --border-radius-x: 40px;
-  --border-radius-l: 16px;
-  --border-radius-m: 8px;
-  --border-radius-s: 4px;
+  --size-x: 40px;
+  --size-l: 16px;
+  --size-m: 8px;
+  --size-s: 4px;
 }
 
 .application {
   background-color: var(--color-grey1);
+}
+
+.padding-x{
+  padding: var(--size-x);
+}
+
+.padding-l{
+  padding: var(--size-l);
 }
 
 input::placeholder {
