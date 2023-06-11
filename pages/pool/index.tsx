@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PieChart from '../../utils/components/chart/pieChart/PieChart';
-import { StorePoolProps } from '@/utils/types/wallet';
+import { IPool, StorePoolProps } from '@/utils/types/wallet';
 import { getPool } from '@/utils/store/pool';
 import { connect } from 'react-redux';
 import { OptionPieChart } from '@/utils/types/chart';
@@ -10,6 +10,7 @@ import ReloadCard from '@/utils/components/card/reloadCard/ReloadCard';
 import AllToken from '@/utils/components/allToken/AllToken';
 import { colorsPieChart } from '@/utils/constant';
 import { storeReducer } from '@/utils/types/store';
+import { fixed2 } from '@/utils/ts/pipe';
 
 const Page = ({ pool, getPool }: StorePoolProps) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -30,7 +31,7 @@ const Page = ({ pool, getPool }: StorePoolProps) => {
     <div>
       <div>liquidity pool</div>
 
-      {pool?.pools?.map(function (pool: any, i: number) {
+      {pool?.pools?.map(function (pool: IPool, i: number) {
         return (
           <div key={i} className="stats">
             <div className="stat place-items-center">
@@ -41,7 +42,7 @@ const Page = ({ pool, getPool }: StorePoolProps) => {
 
             <div className="stat place-items-center">
               <div className="stat-title">Total</div>
-              <div className="stat-value text-secondary">{pool.valueNowA + pool.valueNowB}$</div>
+              <div className="stat-value text-secondary">{fixed2((pool?.valueNowA || 0) + (pool?.valueNowB || 0))}$</div>
               <div className="stat-desc text-secondary">-{pool.impermanentLoss}%</div>
             </div>
 

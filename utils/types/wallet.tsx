@@ -16,6 +16,27 @@ export type Token = {
   locationType: 'centralised' | 'decentralised';
 };
 
+export type IWalletPool = {
+  pools: IPool[];
+};
+
+export type IPool = {
+  tokenA: string;
+  amountA: number;
+  priceA: number;
+  amountNowA?: number;
+  valueNowA?: number;
+  tokenB: string;
+  amountB: number;
+  priceB: number;
+  amountNowB?: number;
+  valueNowB?: number;
+  impermanentLoss?: number;
+  locationBlockchain?: string;
+  locationApp: string;
+  locationType: 'centralised' | 'decentralised';
+};
+
 export interface StoreWalletProps {
   wallet: Wallet | null;
   isLoading?: boolean;
