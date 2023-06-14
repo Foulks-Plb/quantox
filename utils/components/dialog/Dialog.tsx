@@ -1,7 +1,7 @@
 import styles from './dialog.module.scss';
 import { useEffect, useState } from 'react';
 import SingleToken from './singleToken/SingleToken';
-import PoolForm from './poolForm/PoolForm';
+import PoolToken from './poolToken/PoolToken';
 
 export default function Dialog() {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,15 +41,15 @@ export default function Dialog() {
               </a>
             </div>
           </div>
-          {mode === 'pool' && (
-            <PoolForm
+          {mode === 'token' && (
+            <SingleToken
               setOpenEvent={(e: any) => {
                 setIsOpen(e);
               }}
             />
           )}
-          {mode === 'token' && (
-            <SingleToken
+          {mode === 'pool' && (
+            <PoolToken
               setOpenEvent={(e: any) => {
                 setIsOpen(e);
               }}

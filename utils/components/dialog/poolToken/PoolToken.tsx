@@ -1,15 +1,14 @@
-import styles from './poolform.module.scss';
+import styles from './pooltoken.module.scss';
 import { setToast } from '@/utils/store/toast';
 import { useEffect, useState } from 'react';
 import { postCall } from '@/utils/ts/api-base';
 import { LowerCTrim } from '@/utils/ts/pipe';
-import { Token } from '@/utils/types/wallet';
 import { useSession } from 'next-auth/react';
 import { connect } from 'react-redux';
 import { storeReducer } from '@/utils/types/store';
 import { getResultsWithName } from '@/utils/ts/api-coingecko';
 
-function PoolForm({
+function PoolToken({
   setToast,
   setOpenEvent,
 }: {
@@ -22,27 +21,46 @@ function PoolForm({
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
 
   const [ratioError, setRatioError] = useState(false);
-  const [amountA ,setAmountA] = useState(0);
-  const [amountB ,setAmountB] = useState(0);
-  const [priceA ,setPriceA] = useState(0);
-  const [priceB ,setPriceB] = useState(0);
+  const [amountA, setAmountA] = useState(0);
+  const [amountB, setAmountB] = useState(0);
+  const [priceA, setPriceA] = useState(0);
+  const [priceB, setPriceB] = useState(0);
+
+  const [isDecentralisedForm, setIsDecentralisedForm] = useState(true);
 
   useEffect(() => {
     if (amountA && amountB && priceA && priceB) {
       const ratio = (amountA * priceA) / (amountB * priceB);
       if (ratio < 1.05 && ratio > 0.95) {
-        setRatioError(false)
+        setRatioError(false);
       } else {
-        setRatioError(true)
+        setRatioError(true);
       }
     }
   }, [amountA, amountB, priceA, priceB]);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    console.log(event.target.amountA?.value, event.target.amountB?.value, event.target.priceA?.value, event.target.priceB?.value);
-    if (false) {
-      const response = await postCall('/api/addHistory', {});
+    console.log(
+      event.target.amountA?.value,
+      event.target.amountB?.value,
+      event.target.priceA?.value,
+      event.target.priceB?.value,
+    );
+    if (formDecentralisedIsValid(event) && formCentralisedIsValid(event) && !ratioError && event.target.tokenA?.value && event.target.tokenB?.value) {
+      const response = await postCall('/api/pool/addPool', {
+        authorId: session?.user.id,
+        action: 'addPool',
+        amountA: parseFloat(event.target.amountA?.value),
+        amountB: parseFloat(event.target.amountB?.value),
+        priceA: parseFloat(event.target.priceA?.value),
+        priceB: parseFloat(event.target.priceB?.value),
+        tokenA: event.target.tokenA?.value,
+        tokenB: event.target.tokenB?.value,
+        locationBlockchain: LowerCTrim(event.target.locationBlockchain?.value || ''),
+        locationApp: LowerCTrim(event.target.locationApplication?.value) || '',
+        locationType: LowerCTrim(event.target.locationType?.value) || '',
+      });
       if (response?.status === 200) {
         setOpenEvent(false);
         setToast(response.message, 'alert-success');
@@ -54,14 +72,6 @@ function PoolForm({
     }
   };
 
-  function formBaseIsValid(event: any): boolean {
-    return (
-      session?.user.id &&
-      event.target.actionType?.value &&
-      event.target.tokenTo?.value &&
-      event.target.amountTo?.value
-    );
-  }
   async function tokenOnChange(event: any) {
     const value = event.target.value;
 
@@ -78,6 +88,14 @@ function PoolForm({
           });
         }, 2000),
       );
+    }
+  }
+
+  function setLocationType(value: string) {
+    if (value === 'decentralised') {
+      setIsDecentralisedForm(true);
+    } else {
+      setIsDecentralisedForm(false);
     }
   }
 
@@ -128,24 +146,30 @@ function PoolForm({
           <label className="input-group input-group-sm mb-2">
             <span>Amount A</span>
             <input
+              step="any"
               onChange={(event) => setAmountA(Number(event.target.value))}
               autoComplete="off"
               name="amountA"
               type="number"
               placeholder="100"
-              className={`input input-bordered input-sm ${ratioError ? 'input-error' : ''}`}
+              className={`input input-bordered input-sm ${
+                ratioError ? 'input-error' : ''
+              }`}
               required
             />
           </label>
           <label className="input-group input-group-sm mb-2">
             <span>Price A</span>
             <input
+              step="any"
               onChange={(event) => setPriceA(Number(event.target.value))}
               autoComplete="off"
               name="priceA"
               type="number"
               placeholder="1"
-              className={`input input-bordered input-sm ${ratioError ? 'input-error' : ''}`}
+              className={`input input-bordered input-sm ${
+                ratioError ? 'input-error' : ''
+              }`}
               required
             />
           </label>
@@ -173,30 +197,79 @@ function PoolForm({
           <label className="input-group input-group-sm mb-2">
             <span>Amount B</span>
             <input
+              step="any"
               onChange={(event) => setAmountB(Number(event.target.value))}
               autoComplete="off"
               name="amountB"
               type="number"
               placeholder="100"
-              className={`input input-bordered input-sm ${ratioError ? 'input-error' : ''}`}
+              className={`input input-bordered input-sm ${
+                ratioError ? 'input-error' : ''
+              }`}
               required
             />
           </label>
           <label className="input-group input-group-sm mb-2">
             <span>Price B</span>
             <input
+              step="any"
               onChange={(event) => setPriceB(Number(event.target.value))}
               autoComplete="off"
               name="priceB"
               type="number"
               placeholder="1"
-              className={`input input-bordered input-sm ${ratioError ? 'input-error' : ''}`}
+              className={`input input-bordered input-sm ${
+                ratioError ? 'input-error' : ''
+              }`}
               required
             />
           </label>
           <div className="divider"></div>
-        </div>
 
+          <div className="input-group input-group-sm mb-2">
+            <select
+              className="select select-bordered select-sm"
+              aria-label="Action type"
+              name="locationType"
+              onChange={(e) => {
+                setLocationType(e.target.value);
+              }}
+              defaultValue={'decentralised'}
+            >
+              <option disabled>Select location type</option>
+              <option value="decentralised">Decentralised</option>
+              <option value="centralised">Centralised</option>
+            </select>
+          </div>
+          {isDecentralisedForm ? (
+            <div className="mb-2">
+              <label className="input-group input-group-sm">
+                <span>Blockchain</span>
+                <input
+                  autoComplete="off"
+                  name="locationBlockchain"
+                  type="text"
+                  placeholder="Ethereum"
+                  className="input input-bordered input-sm"
+                  required
+                />
+              </label>
+            </div>
+          ) : (
+            <div></div>
+          )}
+          <label className="input-group input-group-sm mb-2">
+            <span>Application</span>
+            <input
+              autoComplete="off"
+              name="locationApplication"
+              type="text"
+              placeholder="Aave"
+              className="input input-bordered input-sm"
+              required
+            />
+          </label>
+        </div>
         <div className="flex justify-center">
           <button type="submit" className="btn btn-primary ">
             submit
@@ -209,4 +282,4 @@ function PoolForm({
 
 const mapToast = (state: storeReducer) => ({ ...state.toastReducer });
 
-export default connect(mapToast, { setToast })(PoolForm);
+export default connect(mapToast, { setToast })(PoolToken);

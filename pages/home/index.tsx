@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PieChart from '../../utils/components/chart/pieChart/PieChart';
-import { StoreWalletProps, Token } from '@/utils/types/wallet';
+import { StoreWalletProps, IToken } from '@/utils/types/wallet';
 import { getWallet } from '@/utils/store/wallet';
 import { connect } from 'react-redux';
 import { OptionPieChart } from '@/utils/types/chart';
@@ -51,7 +51,7 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
     let _labelsLocationType: string[] = [];
     let _labelsLocationApp: string[] = [];
     let _labelsLocationBlockchain: string[] = [];
-    wallet?.tokens?.map((item: Token) => {
+    wallet?.tokens?.map((item: IToken) => {
       _seriesWallet.push(item.value);
       _labelsLocationType.push(item.locationType);
       _labelsToken.push(item.token);

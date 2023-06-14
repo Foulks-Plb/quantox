@@ -41,7 +41,7 @@ export const getPool = (force?: boolean) => async (dispatch: any, getState: any)
       return pool;
     }
 
-    const response = await getCall('/api/pool');
+    const response = await getCall('/api/pool/pool');
     dispatch(fetchPoolSuccess(response));
     return response;
   } catch (error) {

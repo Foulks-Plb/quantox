@@ -67,6 +67,7 @@ export default function AddForm() {
           required 
         />
       </label>
+      <div className="divider"></div>
       <div className="input-group input-group-sm mb-2">
         <select
           className="select select-bordered select-sm"

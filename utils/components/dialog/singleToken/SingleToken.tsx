@@ -5,7 +5,7 @@ import { postCall } from '@/utils/ts/api-base';
 import SwapForm from '../swap-form/Swap-Form';
 import AddForm from '../add-form/Add-Form';
 import { LowerCTrim } from '@/utils/ts/pipe';
-import { Token } from '@/utils/types/wallet';
+import { IToken } from '@/utils/types/wallet';
 import { useSession } from 'next-auth/react';
 import { connect } from 'react-redux';
 import { storeReducer } from '@/utils/types/store';
@@ -14,13 +14,13 @@ function SingleToken({ setToast, setOpenEvent }: {setToast?:any, setOpenEvent: (
   const { data: session } = useSession();
 
   const [actionType, setActionType] = useState('add');
-  const [tokenFromObject, setTokenFromObject] = useState<Token>();
+  const [tokenFromObject, setTokenFromObject] = useState<IToken>();
 
   const handleActionTypeChange = (event: any) => {
     setActionType(event.target.value);
   };
 
-  function setTokenFrom(token: Token) {
+  function setTokenFrom(token: IToken) {
     setTokenFromObject(token);
   }
 
@@ -54,7 +54,6 @@ function SingleToken({ setToast, setOpenEvent }: {setToast?:any, setOpenEvent: (
             LowerCTrim(event.target.locationApplication?.value) || '',
           locationType: LowerCTrim(event.target.locationType?.value) || '',
         },
-        processAt: new Date(),
       });
 
       if (response?.status === 200) {

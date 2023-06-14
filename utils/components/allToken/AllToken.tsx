@@ -1,4 +1,4 @@
-import { Token } from '@/utils/types/wallet';
+import { IToken } from '@/utils/types/wallet';
 import styles from './alltoken.module.scss';
 import TokenDisplay from './tokenDisplay/TokenDisplay';
 
@@ -10,7 +10,7 @@ export default function AllToken({ tokens }: any) {
         <div className={styles.title}>All tokens</div>
       </div>
       <div className={styles.body}>
-        {tokens?.map(function (token: Token, i: number) {
+        {tokens?.map(function (token: IToken, i: number) {
           return <TokenDisplay key={i} token={token} />;
         })}
       </div>

@@ -1,8 +1,23 @@
 import { IPool } from '@/utils/types/wallet';
 import styles from './pooldisplay.module.scss';
 import { fixed2 } from '@/utils/ts/pipe';
+import { deletePool } from '@/utils/ts/api-base';
+import { connect } from 'react-redux';
+import { setToast } from '@/utils/store/toast';
 
-export default function PoolDisplay({ pool }: { pool: IPool }) {
+function PoolDisplay({ pool, setToast }: { pool: IPool, setToast?: (message: string, color: string) => void }) {
+
+  async function  deleteP() {
+    const response = await deletePool('/api/pool/deletePool', pool);
+    if (setToast) {
+      if (response?.status === 200) {
+        setToast(response.message, 'alert-success');
+      } else {
+        setToast(response?.message || 'Error', 'bg-red-500');
+      }
+    }
+  }
+
   return (
     <div className={styles.pool}>
       <div className={styles.poolHead}>
@@ -38,11 +53,15 @@ export default function PoolDisplay({ pool }: { pool: IPool }) {
             tabIndex={0}
             className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <button className="btn btn-outline btn-error">Delete</button>
-            {/* onClick={} */}
+            <button onClick={deleteP} className="btn btn-outline btn-error">Delete</button>
           </ul>
         </div>
       </div>
     </div>
   );
 }
+
+const mapToast = (state: any) => ({ ...state.toastReducer });
+
+export default connect(mapToast, { setToast })(PoolDisplay);
+

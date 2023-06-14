@@ -1,10 +1,11 @@
 export type Wallet = {
   total: number;
-  tokens: Token[];
+  tokens: IToken[];
+  pools: IPool[];
   wallet?: any;
 };
 
-export type Token = {
+export type IToken = {
   id?: string; // cuid
   authorId? : string; // cuid
   token: string; // name
@@ -22,6 +23,7 @@ export type IWalletPool = {
 };
 
 export type IPool = {
+  id?: string; // cuid
   tokenA: string;
   amountA: number;
   priceA: number;

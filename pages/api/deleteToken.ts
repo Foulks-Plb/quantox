@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../lib/prisma';
-import { Token } from '@/utils/types/wallet';
+import { IToken } from '@/utils/types/wallet';
 
 export default async function handler(
     req: NextApiRequest,
@@ -15,12 +15,12 @@ export default async function handler(
     }
 }
 
-async function deleteToken(token: Token) {
+async function deleteToken(token: IToken) {
     await prisma.$transaction([
         prisma.history.create({
             data: {
                 authorId: token.authorId,
-                action: 'delete',
+                action: 'delete token',
                 tokenFrom: token.token,
                 amountFrom: token.amount,
                 locationBlockchainFrom: token.locationBlockchain,
