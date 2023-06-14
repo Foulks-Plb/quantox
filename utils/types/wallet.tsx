@@ -1,8 +1,19 @@
 export type Wallet = {
   total: number;
-  tokens: IToken[];
-  pools: IPool[];
+  tokens?: IWalletToken;
+  pools?: IWalletPool;
   wallet?: any;
+};
+
+export type IWalletToken = {
+  total: number;
+  tokens: IToken[];
+};
+
+export type IWalletPool = {
+  total: number;
+  pools: IPool[];
+  individualTokens: IToken[];
 };
 
 export type IToken = {
@@ -15,11 +26,6 @@ export type IToken = {
   locationBlockchain?: string;
   locationApp: string;
   locationType: 'centralised' | 'decentralised';
-};
-
-export type IWalletPool = {
-  total: number;
-  pools: IPool[];
 };
 
 export type IPool = {

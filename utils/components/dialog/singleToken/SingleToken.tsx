@@ -34,7 +34,7 @@ function SingleToken({ setToast, setOpenEvent }: {setToast?:any, setOpenEvent: (
       formCentralisedIsValid(event) &&
       formSwapAmountIsValid(event)
     ) {
-      const response = await postCall('/api/addHistory', {
+      const response = await postCall('/api/tokens/addToken', {
         authorId: session?.user.id,
         action: LowerCTrim(event.target.actionType?.value),
         from: {

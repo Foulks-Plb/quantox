@@ -5,6 +5,7 @@ import { getPrices } from '@/utils/ts/api-coingecko';
 import { fixed2 } from '@/utils/ts/pipe';
 import { IPool, IWalletPool } from '@/utils/types/wallet';
 import { IImpermanentLoss } from '@/utils/types/formula';
+import { impermLoss } from '@/utils/ts/formula';
 
 export default function handler(
   req: NextApiRequest,
@@ -60,21 +61,4 @@ async function getPools(req: NextApiRequest): Promise<IPool[]> {
     },
   });
   return pools as IPool[];
-}
-
-function impermLoss(amountEnterA: number, amountEnterB: number, priceEnterA: number, priceEnterB: number, priceNowA: number, priceNowB: number): IImpermanentLoss {
-  const ratioEnter = priceEnterA / priceEnterB;
-  const ratioNow = priceNowA / priceNowB;
-
-  const ratioEnterA = Math.sqrt(ratioEnter / ratioEnter);
-  const ratioEnterB = Math.sqrt(ratioEnter * ratioEnter);
-
-  const changeNowRatioA = Math.sqrt(ratioEnter / ratioNow);
-  const changeNowRatioB = Math.sqrt(ratioEnter * ratioNow);
-
-  return {
-    impermanentLoss: -1 * (((changeNowRatioA * priceNowA + changeNowRatioB * priceNowB) / (1 * priceNowA + ratioEnter * priceNowB)) * 100 - 100),
-    amountNowA: amountEnterA * (changeNowRatioA / ratioEnterA),
-    amountNowB: amountEnterB * (changeNowRatioB / ratioEnterB),
-  };
 }

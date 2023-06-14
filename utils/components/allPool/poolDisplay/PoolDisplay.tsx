@@ -8,7 +8,7 @@ import { setToast } from '@/utils/store/toast';
 function PoolDisplay({ pool, setToast }: { pool: IPool, setToast?: (message: string, color: string) => void }) {
 
   async function  deleteP() {
-    const response = await deletePool('/api/pool/deletePool', pool);
+    const response = await deletePool('/api/pools/deletePool', pool);
     if (setToast) {
       if (response?.status === 200) {
         setToast(response.message, 'alert-success');

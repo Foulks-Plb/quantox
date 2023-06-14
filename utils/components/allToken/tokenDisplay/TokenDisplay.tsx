@@ -7,7 +7,7 @@ import { IToken } from '@/utils/types/wallet';
 function TokenDisplay({ token, setToast}: { token: IToken, setToast?: (message: string, color: string) => void }) {
   
   async function  deleteT() {
-    const response = await deleteToken('/api/deleteToken', token);
+    const response = await deleteToken('/api/tokens/deleteToken', token);
     if (setToast) {
       if (response?.status === 200) {
         setToast(response.message, 'alert-success');

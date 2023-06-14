@@ -51,7 +51,7 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
     let _labelsLocationType: string[] = [];
     let _labelsLocationApp: string[] = [];
     let _labelsLocationBlockchain: string[] = [];
-    wallet?.tokens?.map((item: IToken) => {
+    wallet?.tokens?.tokens?.map((item: IToken) => {
       _seriesWallet.push(item.value);
       _labelsLocationType.push(item.locationType);
       _labelsToken.push(item.token);

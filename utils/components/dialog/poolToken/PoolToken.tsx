@@ -41,14 +41,8 @@ function PoolToken({
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    console.log(
-      event.target.amountA?.value,
-      event.target.amountB?.value,
-      event.target.priceA?.value,
-      event.target.priceB?.value,
-    );
     if (formDecentralisedIsValid(event) && formCentralisedIsValid(event) && !ratioError && event.target.tokenA?.value && event.target.tokenB?.value) {
-      const response = await postCall('/api/pool/addPool', {
+      const response = await postCall('/api/pools/addPool', {
         authorId: session?.user.id,
         action: 'addPool',
         amountA: parseFloat(event.target.amountA?.value),

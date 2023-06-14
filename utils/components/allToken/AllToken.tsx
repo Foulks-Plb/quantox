@@ -10,7 +10,7 @@ export default function AllToken({ tokens }: any) {
         <div className={styles.title}>All tokens</div>
       </div>
       <div className={styles.body}>
-        {tokens?.map(function (token: IToken, i: number) {
+        {tokens?.tokens.map(function (token: IToken, i: number) {
           return <TokenDisplay key={i} token={token} />;
         })}
       </div>
