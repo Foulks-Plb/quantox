@@ -1,12 +1,12 @@
 import { getWallet } from '@/utils/store/wallet';
 import { getResultsWithName } from '@/utils/ts/api-coingecko';
-import { IToken, Wallet } from '@/utils/types/wallet';
+import { IToken, IWallet } from '@/utils/types/wallet';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import AutoComplete from '../../autoComplete/AutoComplete';
 import { storeReducer } from '@/utils/types/store';
 
-function SwapForm({ wallet, getWallet, setTokenFromEvent }: { wallet?: Wallet, getWallet?: (force?: boolean) => void, setTokenFromEvent: (searchObject: any) => void }) {
+function SwapForm({ wallet, getWallet, setTokenFromEvent }: { wallet?: IWallet, getWallet?: (force?: boolean) => void, setTokenFromEvent: (searchObject: any) => void }) {
   const [isMounted, setIsMounted] = useState(false);
   const [isDecentralisedForm, setIsDecentralisedForm] = useState(true);
 

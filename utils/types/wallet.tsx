@@ -1,4 +1,4 @@
-export type Wallet = {
+export type IWallet = {
   total: number;
   tokens?: IWalletToken;
   pools?: IWalletPool;
@@ -47,7 +47,7 @@ export type IPool = {
 };
 
 export interface StoreWalletProps {
-  wallet: Wallet | null;
+  wallet: IWallet | null;
   isLoading?: boolean;
   error?: string | null;
   getWallet?: (force?: boolean) => void;

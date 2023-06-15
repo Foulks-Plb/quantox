@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
 import { getPrices } from '@/utils/ts/api-coingecko';
-import { Wallet, IToken, IWalletToken } from '@/utils/types/wallet';
+import { IToken, IWalletToken } from '@/utils/types/wallet';
 import { fixed2 } from '@/utils/ts/pipe';
 import { getSession } from 'next-auth/react';
 

@@ -1,5 +1,6 @@
 import { getCall } from '../ts/api-base';
 import { StorePoolProps } from '../types/wallet';
+import { setPoolInWallet } from './wallet';
 
 const initialStatePool: StorePoolProps = {
   pool: null,
@@ -14,7 +15,7 @@ const FETCH_POOL_FAILURE = 'FETCH_POOL_FAILURE';
 
 // Action creators
 const fetchPoolStart = () => ({ type: FETCH_POOL_START });
-const fetchPoolSuccess = (pool: any) => ({ type: FETCH_POOL_SUCCESS, payload: pool });
+export const fetchPoolSuccess = (pool: any) => ({ type: FETCH_POOL_SUCCESS, payload: pool });
 const fetchPoolFailure = (error: any) => ({ type: FETCH_POOL_FAILURE, payload: error });
 
 // Reducer
@@ -43,6 +44,7 @@ export const getPool = (force?: boolean) => async (dispatch: any, getState: any)
 
     const response = await getCall('/api/pools/pools');
     dispatch(fetchPoolSuccess(response));
+    dispatch(setPoolInWallet(response.pools)); 
     return response;
   } catch (error) {
     dispatch(fetchPoolFailure(error));
