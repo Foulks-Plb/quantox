@@ -2,11 +2,12 @@ import { deleteToken } from '@/utils/ts/api-base';
 import styles from './tokendisplay.module.scss';
 import { connect } from 'react-redux';
 import { setToast } from '@/utils/store/toast';
-import { Token } from '@/utils/types/wallet';
+import { IToken } from '@/utils/types/wallet';
 
-function TokenDisplay({ token, setToast}: { token: Token, setToast?: (message: string, color: string) => void }) {
+function TokenDisplay({ token, setToast}: { token: IToken, setToast?: (message: string, color: string) => void }) {
+  
   async function  deleteT() {
-    const response = await deleteToken('/api/deleteToken', token);
+    const response = await deleteToken('/api/tokens/deleteToken', token);
     if (setToast) {
       if (response?.status === 200) {
         setToast(response.message, 'alert-success');
@@ -33,8 +34,8 @@ function TokenDisplay({ token, setToast}: { token: Token, setToast?: (message: s
         </div>
       </div>
       <div className={styles.tokenBody}>
-        <div className={styles.tokenCurrency}>$</div>
-        <div>{token.value}</div>
+        <strong className={styles.tokenCurrency}>$</strong>
+        <strong>{token.value}</strong>
       </div>
       <div className={styles.boutonDelete}>
         <div className="dropdown dropdown-end">

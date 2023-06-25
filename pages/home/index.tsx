@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PieChart from '../../utils/components/chart/pieChart/PieChart';
-import { StoreWalletProps, Token } from '@/utils/types/wallet';
+import { StoreWalletProps, IToken } from '@/utils/types/wallet';
 import { getWallet } from '@/utils/store/wallet';
 import { connect } from 'react-redux';
 import { OptionPieChart } from '@/utils/types/chart';
@@ -9,6 +9,7 @@ import InfoCard from '@/utils/components/card/infoCard/InfoCard';
 import ReloadCard from '@/utils/components/card/reloadCard/ReloadCard';
 import AllToken from '@/utils/components/allToken/AllToken';
 import { colorsPieChart } from '@/utils/constant';
+import { storeReducer } from '@/utils/types/store';
 
 const Page = ({ wallet, getWallet }: StoreWalletProps) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -50,7 +51,7 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
     let _labelsLocationType: string[] = [];
     let _labelsLocationApp: string[] = [];
     let _labelsLocationBlockchain: string[] = [];
-    wallet?.tokens?.map((item: Token) => {
+    wallet?.tokens?.tokens?.map((item: IToken) => {
       _seriesWallet.push(item.value);
       _labelsLocationType.push(item.locationType);
       _labelsToken.push(item.token);
@@ -142,6 +143,6 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
   );
 };
 
-const mapWallet = (state: any) => ({ ...state.walletReducer });
+const mapWallet = (state: storeReducer) => ({ ...state.walletReducer });
 
 export default connect(mapWallet, { getWallet })(Page);

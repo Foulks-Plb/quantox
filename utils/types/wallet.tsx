@@ -1,10 +1,22 @@
-export type Wallet = {
+export type IWallet = {
   total: number;
-  tokens: Token[];
+  tokens?: IWalletToken;
+  pools?: IWalletPool;
   wallet?: any;
 };
 
-export type Token = {
+export type IWalletToken = {
+  total: number;
+  tokens: IToken[];
+};
+
+export type IWalletPool = {
+  total: number;
+  pools: IPool[];
+  individualTokens: IToken[];
+};
+
+export type IToken = {
   id?: string; // cuid
   authorId? : string; // cuid
   token: string; // name
@@ -16,9 +28,34 @@ export type Token = {
   locationType: 'centralised' | 'decentralised';
 };
 
+export type IPool = {
+  id?: string; // cuid
+  tokenA: string;
+  amountA: number;
+  priceA: number;
+  amountNowA?: number;
+  valueNowA?: number;
+  tokenB: string;
+  amountB: number;
+  priceB: number;
+  amountNowB?: number;
+  valueNowB?: number;
+  impermanentLoss?: number;
+  locationBlockchain?: string;
+  locationApp: string;
+  locationType: 'centralised' | 'decentralised';
+};
+
 export interface StoreWalletProps {
-  wallet: Wallet | null;
+  wallet: IWallet | null;
   isLoading?: boolean;
   error?: string | null;
   getWallet?: (force?: boolean) => void;
+}
+
+export interface StorePoolProps {
+  pool: any;
+  isLoading?: boolean;
+  error?: string | null;
+  getPool?: (force?: boolean) => void;
 }

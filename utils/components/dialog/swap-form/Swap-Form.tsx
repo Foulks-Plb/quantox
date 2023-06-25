@@ -1,18 +1,18 @@
 import { getWallet } from '@/utils/store/wallet';
 import { getResultsWithName } from '@/utils/ts/api-coingecko';
-import { Token, Wallet } from '@/utils/types/wallet';
+import { IToken, IWallet } from '@/utils/types/wallet';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import AutoComplete from '../../autoComplete/AutoComplete';
 import { storeReducer } from '@/utils/types/store';
 
-function SwapForm({ wallet, getWallet, setTokenFromEvent }: { wallet?: Wallet, getWallet?: (force?: boolean) => void, setTokenFromEvent: (searchObject: any) => void }) {
+function SwapForm({ wallet, getWallet, setTokenFromEvent }: { wallet?: IWallet, getWallet?: (force?: boolean) => void, setTokenFromEvent: (searchObject: any) => void }) {
   const [isMounted, setIsMounted] = useState(false);
   const [isDecentralisedForm, setIsDecentralisedForm] = useState(true);
 
   const [searchValue, setSearchValue] = useState<string>('');
   const [inSearch, setInSearch] = useState(false);
-  const [searchObject, setSearchObject] = useState<Token>();
+  const [searchObject, setSearchObject] = useState<IToken>();
   const [amountFrom, setAmountFrom] = useState<number>(0);
   const [errorAmountFrom, setErrorAmountFrom] = useState<string>('');
 
@@ -137,7 +137,6 @@ function SwapForm({ wallet, getWallet, setTokenFromEvent }: { wallet?: Wallet, g
       </label>
       {errorAmountFrom && <div className='text-red-600'>{errorAmountFrom}</div>}
       <div className="divider">↓↓↓↓↓↓↓↓</div>
-
       <label className="input-group input-group-sm">
         <span>Token to</span>
         <input
@@ -169,7 +168,8 @@ function SwapForm({ wallet, getWallet, setTokenFromEvent }: { wallet?: Wallet, g
           required
         />
       </label>
-      <div className="input-group input-group-sm mt-2">
+      <div className="divider"></div>
+      <div className="input-group input-group-sm">
         <select
           className="select select-bordered select-sm"
           aria-label="Action type"
@@ -203,7 +203,7 @@ function SwapForm({ wallet, getWallet, setTokenFromEvent }: { wallet?: Wallet, g
       ) : (
         <div></div>
       )}
-      <label className="input-group input-group-sm mt-2">
+      <label className="input-group input-group-sm mt-2 mb-2">
         <span>Application</span>
         <input
           autoComplete="off"

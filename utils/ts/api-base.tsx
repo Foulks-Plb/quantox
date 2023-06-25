@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Token } from "../types/wallet";
+import { IPool, IToken } from "../types/wallet";
 import { IPagination } from "../types/backend";
 
 export async function getCall(url: string) {
@@ -31,11 +31,25 @@ export async function postCall(url: string, data: any) {
       }
 }
 
-export async function deleteToken(url: string, token: Token) {
+export async function deleteToken(url: string, token: IToken) {
   try {
       const data = {
         params : {
           ...token
+        }
+      };
+      const response = await axios.put(url, data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+}
+
+export async function deletePool(url: string, pool: IPool) {
+  try {
+      const data = {
+        params : {
+          ...pool
         }
       };
       const response = await axios.put(url, data);

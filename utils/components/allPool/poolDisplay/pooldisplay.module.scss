@@ -1,4 +1,4 @@
-.token {
+.pool {
     margin: var(--size-m) 0;
     background-color: var(--color-white);
     display: flex;
@@ -7,30 +7,25 @@
     align-items: center;
     color: var(--color-black);
 
-    .tokenHead {
-        .tokenTitle {
+    .poolHead {
+        .poolTitle {
             display: flex;
 
-            .tokenAmount {
+            .poolAmount {
                 margin-right: var(--size-s);
             }
         }
-
-        .tokenBlockchain {
-            margin-right: var(--size-s);
-        }
     }
 
-    .tokenBody {
-        display: flex;
+    .poolTotal {
         margin-left: auto;
 
-        .tokenCurrency {
-            margin-right: 2px;
+        .poolImperLoss {
+            color: red;
         }
     }
 
     .boutonDelete {
-        margin-left: 8px;
+        margin-left: var(--size-l);
     }
 }

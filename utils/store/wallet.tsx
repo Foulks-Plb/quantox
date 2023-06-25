@@ -1,6 +1,6 @@
-import { get } from 'http';
 import { getCall } from '../ts/api-base';
-import { StoreWalletProps, Wallet } from '../types/wallet';
+import { IWalletPool, StoreWalletProps, IWallet } from '../types/wallet';
+import { fetchPoolSuccess } from './pool';
 
 const initialStateWallet: StoreWalletProps = {
   wallet: null,
@@ -11,11 +11,13 @@ const initialStateWallet: StoreWalletProps = {
 // Action types
 const FETCH_WALLET_START = 'FETCH_WALLET_START';
 const FETCH_WALLET_SUCCESS = 'FETCH_WALLET_SUCCESS';
+const SET_POOL_SUCCESS = 'SET_POOL_SUCCESS';
 const FETCH_WALLET_FAILURE = 'FETCH_WALLET_FAILURE';
 
 // Action creators
 const fetchWalletStart = () => ({ type: FETCH_WALLET_START });
-const fetchWalletSuccess = (wallet: Wallet) => ({ type: FETCH_WALLET_SUCCESS, payload: wallet });
+export const fetchWalletSuccess = (wallet: IWallet) => ({ type: FETCH_WALLET_SUCCESS, payload: wallet });
+export const setPoolInWallet = (pool: IWalletPool) => ({ type: SET_POOL_SUCCESS, payload: pool });
 const fetchWalletFailure = (error: any) => ({ type: FETCH_WALLET_FAILURE, payload: error });
 
 // Reducer
@@ -25,6 +27,8 @@ const reducerWallet = (state = initialStateWallet, action: any) => {
       return { ...state, isLoading: true };
     case FETCH_WALLET_SUCCESS:
       return { ...state, isLoading: false, wallet: action.payload };
+    case SET_POOL_SUCCESS:
+      return { ...state, isLoading: false, wallet: { ...state.wallet, pools: action.payload } };
     case FETCH_WALLET_FAILURE:
       return { ...state, isLoading: false, error: action.payload };
     default:
@@ -37,13 +41,15 @@ export const getWallet = (force?: boolean) => async (dispatch: any, getState: an
   try {
     dispatch(fetchWalletStart());
     const { walletReducer } = getState();
-    const wallet = walletReducer.wallet;
-    if (wallet && !force) {
+    const wallet: IWallet = walletReducer.wallet;
+    if (wallet?.pools && wallet?.tokens && !force) {
       return wallet;
     }
 
-    const response = await getCall('/api/wallet');
+    const response: IWallet = await getCall('/api/wallet');
     dispatch(fetchWalletSuccess(response));
+    
+    dispatch(fetchPoolSuccess(response.pools));
     return response;
   } catch (error) {
     dispatch(fetchWalletFailure(error));
