@@ -5,7 +5,7 @@ const AutoComplete = ({ searchValue, options, setSearch }: any) => {
   const [filteredOptions, setFilteredOptions] = useState([]);
 
   useEffect(() => {
-    let filteredOptions = options?.filter(
+    let filteredOptions = options?.tokens?.filter(
       (option: any) =>
         option.token.toLowerCase().indexOf(searchValue.toLowerCase()) > -1,
     );

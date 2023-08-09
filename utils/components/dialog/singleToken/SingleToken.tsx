@@ -130,7 +130,10 @@ function SingleToken({ setToast, setOpenEvent }: {setToast?:any, setOpenEvent: (
           </div>
         </div>
         {actionType === 'add' ? (
-          <AddForm />
+          <AddForm 
+            setTokenFromEvent={(e: any) => {
+              setTokenFrom(e);
+            }}/>
         ) : (
           <SwapForm
             setTokenFromEvent={(e: any) => {

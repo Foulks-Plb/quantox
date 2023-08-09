@@ -1,8 +1,16 @@
 import { getResultsWithName } from '@/utils/ts/api-coingecko';
 import { useState } from 'react';
+import AutoComplete from '../../autoComplete/AutoComplete';
+import { IToken, IWallet } from '@/utils/types/wallet';
+import FormFinderToken from '../../formFinderToken/FormFinderToken';
 
-export default function AddForm() {
+export default function AddForm({
+  setTokenFromEvent,
+}: {
+  setTokenFromEvent: (searchObject: any) => void;
+}) {
   const [isDecentralisedForm, setIsDecentralisedForm] = useState(true);
+  const [isReward, setIsReward] = useState(false);
 
   const [options, setOptions] = useState([]);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
@@ -36,6 +44,26 @@ export default function AddForm() {
 
   return (
     <div className="form-control">
+      <div className="flex mb-2">
+        <label className="flex cursor-pointer mr-2">
+          <input
+            type="checkbox"
+            checked={isReward}
+            className="checkbox"
+            onChange={() => setIsReward(!isReward)}
+          />
+          <span className="ml-2">is reward</span>
+        </label>
+        {isReward && (
+            <FormFinderToken
+              title="Reward source"
+              setTokenFromEvent={(e: any) => {
+                setTokenFromEvent(e);
+              }}
+            />
+        )}
+      </div>
+
       <label className="input-group input-group-sm mb-2">
         <span>Token</span>
         <input
@@ -64,7 +92,7 @@ export default function AddForm() {
           type="text"
           placeholder="0.1"
           className="input input-bordered input-sm"
-          required 
+          required
         />
       </label>
       <div className="divider"></div>
@@ -78,16 +106,14 @@ export default function AddForm() {
           }}
           defaultValue={'decentralised'}
         >
-          <option disabled>
-            Select location type
-          </option>
+          <option disabled>Select location type</option>
           <option value="decentralised">Decentralised</option>
           <option value="centralised">Centralised</option>
         </select>
       </div>
 
       {isDecentralisedForm ? (
-        <div className='mb-2'>
+        <div className="mb-2">
           <label className="input-group input-group-sm">
             <span>Blockchain</span>
             <input
