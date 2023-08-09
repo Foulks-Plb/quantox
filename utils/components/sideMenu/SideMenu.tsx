@@ -47,6 +47,9 @@ const SideMenu = ({ children }: { children: React.ReactNode }) => {
               <Link href="/pool">Pool</Link>
             </li>
             <li>
+              <Link href="/reward">Reward</Link>
+            </li>
+            <li>
               <Link href="/history">History</Link>
             </li>
             <div className="absolute bottom-0 inset-x-0 p-4">
