@@ -18,7 +18,6 @@ export default async function handler(
           await swapToken(req.body);
         }
       } catch (error) {
-        console.log(error);
         return res.status(500).json({ message: error, status: 500 });
       }
       return res.status(200).json({ message: 'Action is saved', status: 200 });
