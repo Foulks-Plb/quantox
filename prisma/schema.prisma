@@ -20,7 +20,7 @@ model User {
   history       History[]
   tokens        Token[]
   pools         Pool[]
-  rewards               Reward[]
+  rewards       Reward[]
   @@map(name: "users")
 }
 
@@ -45,10 +45,7 @@ model Reward {
   tokenInstance         Token?     @relation(fields: [tokenId], references: [id])
   token                 String
   amount                Float
-  locationBlockchain    String?
-  locationApp           String
-  locationType          String  
-  @@unique([locationBlockchain, locationApp, locationType, token, authorId, tokenId])
+  @@unique([token, authorId, tokenId])
 }
 
 model Pool {

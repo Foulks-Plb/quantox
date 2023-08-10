@@ -1,7 +1,5 @@
 import { getResultsWithName } from '@/utils/ts/api-coingecko';
 import { useState } from 'react';
-import AutoComplete from '../../autoComplete/AutoComplete';
-import { IToken, IWallet } from '@/utils/types/wallet';
 import FormFinderToken from '../../formFinderToken/FormFinderToken';
 
 export default function AddForm({
@@ -50,6 +48,7 @@ export default function AddForm({
             type="checkbox"
             checked={isReward}
             className="checkbox"
+            name="isReward"
             onChange={() => setIsReward(!isReward)}
           />
           <span className="ml-2">is reward</span>

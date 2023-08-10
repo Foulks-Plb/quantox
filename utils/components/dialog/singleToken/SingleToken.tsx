@@ -26,7 +26,6 @@ function SingleToken({ setToast, setOpenEvent }: {setToast?:any, setOpenEvent: (
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-
     if (
       formBaseIsValid(event) &&
       formSwapIsValid(event) &&
@@ -37,6 +36,8 @@ function SingleToken({ setToast, setOpenEvent }: {setToast?:any, setOpenEvent: (
       const response = await postCall('/api/tokens/addToken', {
         authorId: session?.user.id,
         action: LowerCTrim(event.target.actionType?.value),
+        isReward: event.target.isReward?.checked,
+        tokenSource: tokenFromObject,
         from: {
           token: tokenFromObject?.token || '',
           amount: parseFloat(event.target.amountFrom?.value) || 0,
