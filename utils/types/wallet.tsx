@@ -16,6 +16,11 @@ export type IWalletPool = {
   individualTokens: IToken[];
 };
 
+export type IWalletReward = {
+  total: number;
+  rewards: IReward[];
+};
+
 export type IToken = {
   id?: string; // cuid
   authorId? : string; // cuid
@@ -26,6 +31,16 @@ export type IToken = {
   locationBlockchain?: string;
   locationApp: string;
   locationType: 'centralised' | 'decentralised';
+};
+
+export type IReward = {
+  id?: string;
+  authorId? : string;
+  tokenId: string;
+  token: string;
+  price?: number;
+  value: number;
+  amount: number;
 };
 
 export type IPool = {

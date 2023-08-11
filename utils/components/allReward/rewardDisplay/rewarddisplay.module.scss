@@ -1,0 +1,36 @@
+.token {
+    margin: var(--size-m) 0;
+    background-color: var(--color-white);
+    display: flex;
+    padding: var(--size-l);
+    border-radius: var(--size-l);
+    align-items: center;
+    color: var(--color-black);
+
+    .tokenHead {
+        .tokenTitle {
+            display: flex;
+
+            .tokenAmount {
+                margin-right: var(--size-s);
+            }
+        }
+
+        .tokenBlockchain {
+            margin-right: var(--size-s);
+        }
+    }
+
+    .tokenBody {
+        display: flex;
+        margin-left: auto;
+
+        .tokenCurrency {
+            margin-right: 2px;
+        }
+    }
+
+    .boutonDelete {
+        margin-left: 8px;
+    }
+}

@@ -88,8 +88,8 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
   }
 
   return (
-    <div className="flex">
-      <div className="w-2/3">
+    <div className="flex justify-between">
+      <div >
         <div className="flex justify-center">
           <InfoCard title="Balance" value={wallet?.total} />
           <ReloadCard />
@@ -124,7 +124,7 @@ const Page = ({ wallet, getWallet }: StoreWalletProps) => {
           />
         </div>
       </div>
-      <div className="w-1/3">
+      <div>
         <div className={styles.sideChart}>
           <PieChart
             title="Tokens"
